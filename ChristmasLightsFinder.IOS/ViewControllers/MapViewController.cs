@@ -18,6 +18,7 @@ namespace ChristmasLightsFinder.IOS
 			geocoder = new CoreLocation.CLGeocoder ();
 			houseService = new HouseService ();
 
+			this.NavigationItem.BackBarButtonItem = new UIBarButtonItem ("Back", UIBarButtonItemStyle.Plain,null);
 		}
 
 		public async override void ViewDidLoad ()
@@ -92,8 +93,8 @@ namespace ChristmasLightsFinder.IOS
 
 				detailButton.TouchUpInside += (s, e) => { 
 					Console.WriteLine ("Clicked");
-					var detailViewController = UIStoryboard.FromName ("MainStoryboard", null).InstantiateViewController("HouseDetailViewController");
-
+					var detailViewController = UIStoryboard.FromName ("MainStoryboard", null).InstantiateViewController("HouseDetailsViewController") as HouseDetailsViewController;
+					detailViewController.House = (annotation as HouseMapAnnotation).House;
 					this.parent.NavigationController.PushViewController(detailViewController,true);
 				};
 				annotationView.RightCalloutAccessoryView = detailButton;

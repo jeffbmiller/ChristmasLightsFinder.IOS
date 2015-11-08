@@ -11,8 +11,8 @@ using UIKit;
 
 namespace ChristmasLightsFinder.IOS
 {
-	[Register ("HouseDetailViewController")]
-	partial class HouseDetailViewController
+	[Register ("HouseDetailsViewController")]
+	partial class HouseDetailsViewController
 	{
 	}
 }
