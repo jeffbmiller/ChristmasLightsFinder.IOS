@@ -63,6 +63,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="Parse.iOS">
+      <HintPath>..\packages\Parse.1.6.1\lib\Xamarin.iOS10\Parse.iOS.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -74,18 +77,26 @@
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="MapViewController.cs" />
-    <Compile Include="MapViewController.designer.cs">
+    <Compile Include="ViewControllers\MapViewController.cs" />
+    <Compile Include="ViewControllers\MapViewController.designer.cs">
       <DependentUpon>MapViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddNewHouseViewController.cs" />
-    <Compile Include="AddNewHouseViewController.designer.cs">
+    <Compile Include="ViewControllers\AddNewHouseViewController.cs" />
+    <Compile Include="ViewControllers\AddNewHouseViewController.designer.cs">
       <DependentUpon>AddNewHouseViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\House.cs" />
+    <Compile Include="Services\HouseService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="ViewControllers\" />
+    <Folder Include="Models\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
 </Project>

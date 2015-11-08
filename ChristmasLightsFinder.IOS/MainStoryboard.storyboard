@@ -120,6 +120,9 @@
                     </tableView>
                     <connections>
                         <outlet property="houseImageView" destination="163" id="name-outlet-163"/>
+                        <outlet property="addressTextField" destination="178" id="name-outlet-178"/>
+                        <outlet property="cityTextField" destination="179" id="name-outlet-179"/>
+                        <outlet property="provinceTextField" destination="180" id="name-outlet-180"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="132" userLabel="First Responder" sceneMemberID="firstResponder"/>

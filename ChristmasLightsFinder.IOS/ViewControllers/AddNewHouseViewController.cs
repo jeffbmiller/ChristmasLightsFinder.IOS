@@ -18,6 +18,21 @@ namespace ChristmasLightsFinder.IOS
 			this.houseImageView.AddGestureRecognizer (new UITapGestureRecognizer (x => {
 				addPhoto ();
 			}));
+
+			var saveBtn = new UIBarButtonItem (UIBarButtonSystemItem.Save);
+			saveBtn.Clicked += async delegate {
+				var house = new House(){
+					Address = addressTextField.Text,
+					City = cityTextField.Text,
+					Province = provinceTextField.Text,
+					Country = "Canada"
+				};
+
+				await house.SaveAsync();
+				this.NavigationController.PopViewController(true);
+			};
+
+			this.NavigationItem.RightBarButtonItem = saveBtn;
 		}
 
 
@@ -49,9 +64,6 @@ namespace ChristmasLightsFinder.IOS
 			};
 
 			sourceActionSheet.ShowInView(this.View);
-
-
-
 
 		}
 	}

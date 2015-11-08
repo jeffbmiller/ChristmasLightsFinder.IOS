@@ -16,13 +16,37 @@ namespace ChristmasLightsFinder.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField addressTextField { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField cityTextField { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIImageView houseImageView { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField provinceTextField { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (addressTextField != null) {
+				addressTextField.Dispose ();
+				addressTextField = null;
+			}
+			if (cityTextField != null) {
+				cityTextField.Dispose ();
+				cityTextField = null;
+			}
 			if (houseImageView != null) {
 				houseImageView.Dispose ();
 				houseImageView = null;
+			}
+			if (provinceTextField != null) {
+				provinceTextField.Dispose ();
+				provinceTextField = null;
 			}
 		}
 	}

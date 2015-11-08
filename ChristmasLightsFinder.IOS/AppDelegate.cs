@@ -1,5 +1,6 @@
 ﻿using Foundation;
 using UIKit;
+using Parse;
 
 namespace ChristmasLightsFinder.IOS
 {
@@ -19,6 +20,9 @@ namespace ChristmasLightsFinder.IOS
 		{
 			// create a new window instance based on the screen size
 			Window = new UIWindow (UIScreen.MainScreen.Bounds);
+
+			ParseObject.RegisterSubclass<House>();
+			ParseClient.Initialize("Sv0daWT1jgQ4pdSFvgbqkThjXRtZlFhUW47LMGqx", "LN6CeKOoC0SZtKmyHVizMGyzl80suzV7dgWkYsdw");
 
 			// If you have defined a root view controller, set it here:
 			Window.RootViewController = UIStoryboard.FromName ("MainStoryboard", null).InstantiateInitialViewController();
