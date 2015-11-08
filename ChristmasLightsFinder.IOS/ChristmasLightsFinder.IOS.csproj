@@ -92,11 +92,17 @@
     </Compile>
     <Compile Include="Models\House.cs" />
     <Compile Include="Services\HouseService.cs" />
+    <Compile Include="Views\HouseMapAnnotation.cs" />
+    <Compile Include="HouseDetailViewController.cs" />
+    <Compile Include="HouseDetailViewController.designer.cs">
+      <DependentUpon>HouseDetailViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <Folder Include="ViewControllers\" />
     <Folder Include="Models\" />
     <Folder Include="Services\" />
+    <Folder Include="Views\" />
   </ItemGroup>
 </Project>

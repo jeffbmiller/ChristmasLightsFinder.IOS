@@ -2,6 +2,7 @@ using Foundation;
 using System;
 using System.CodeDom.Compiler;
 using UIKit;
+using Parse;
 
 namespace ChristmasLightsFinder.IOS
 {
@@ -27,6 +28,10 @@ namespace ChristmasLightsFinder.IOS
 					Province = provinceTextField.Text,
 					Country = "Canada"
 				};
+
+				var imageFile = new ParseFile(string.Format("{0}.jpg",house.FullAddress),houseImageView.Image.AsJPEG().AsStream());
+				await imageFile.SaveAsync();
+				house.Image = imageFile;
 
 				await house.SaveAsync();
 				this.NavigationController.PopViewController(true);
