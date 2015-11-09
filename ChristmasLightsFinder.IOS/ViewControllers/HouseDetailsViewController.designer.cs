@@ -26,6 +26,14 @@ namespace ChristmasLightsFinder.IOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIImageView houseImage { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton likeButton { get; set; }
+
+		[Action ("likeButton_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void likeButton_TouchUpInside (UIButton sender);
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (activityIndicator != null) {
@@ -39,6 +47,10 @@ namespace ChristmasLightsFinder.IOS
 			if (houseImage != null) {
 				houseImage.Dispose ();
 				houseImage = null;
+			}
+			if (likeButton != null) {
+				likeButton.Dispose ();
+				likeButton = null;
 			}
 		}
 	}

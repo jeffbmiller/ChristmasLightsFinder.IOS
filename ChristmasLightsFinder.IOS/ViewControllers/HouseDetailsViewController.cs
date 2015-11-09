@@ -40,5 +40,10 @@ namespace ChristmasLightsFinder.IOS
 				}
 			}
 		}
+
+		partial void likeButton_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
 	}
 }
