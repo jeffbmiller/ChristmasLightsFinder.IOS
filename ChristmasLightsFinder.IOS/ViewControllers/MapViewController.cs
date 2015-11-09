@@ -39,20 +39,27 @@ namespace ChristmasLightsFinder.IOS
 		{
 			base.ViewDidAppear (animated);
 
-			var houses = await houseService.GetHousesAsync ();
+			try {
+				UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
+				var houses = await houseService.GetHousesAsync ();
+				foreach (var house in houses) {
+					var geoAddress = await geocoder.GeocodeAddressAsync (house.FullAddress);
 
-			foreach (var house in houses) {
-				var geoAddress = await geocoder.GeocodeAddressAsync (house.FullAddress);
-
-				var annotation = new HouseMapAnnotation (geoAddress [0].Location.Coordinate, house.Address, house);
-			
-				var existing = this.mapView.Annotations.ToList ();
-				if (existing.Any (x => x.Coordinate.Latitude == annotation.Coordinate.Latitude &&
-					x.Coordinate.Longitude == annotation.Coordinate.Longitude))
-					continue;
-				this.mapView.AddAnnotation (annotation);
+					var annotation = new HouseMapAnnotation (geoAddress [0].Location.Coordinate, house.Address, house);
+				
+					var existing = this.mapView.Annotations.ToList ();
+					if (existing.Any (x => x.Coordinate.Latitude == annotation.Coordinate.Latitude &&
+						x.Coordinate.Longitude == annotation.Coordinate.Longitude))
+						continue;
+					this.mapView.AddAnnotation (annotation);
+				}
 			}
-
+			catch(Exception e) {
+				Console.WriteLine ("Error communicating with server. {0}",e.Message);
+			}
+			finally{
+				UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
+			}
 
 		}
 

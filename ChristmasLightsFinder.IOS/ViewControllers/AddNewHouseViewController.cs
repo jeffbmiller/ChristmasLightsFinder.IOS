@@ -17,11 +17,20 @@ namespace ChristmasLightsFinder.IOS
 			base.ViewDidLoad ();
 
 			this.houseImageView.AddGestureRecognizer (new UITapGestureRecognizer (x => {
+				DismissKeyboards();
 				addPhoto ();
 			}));
 
 			var saveBtn = new UIBarButtonItem (UIBarButtonSystemItem.Save);
 			saveBtn.Clicked += async delegate {
+
+				DismissKeyboards();
+				if (addressTextField.Text == null || cityTextField.Text == null && provinceTextField.Text == null)
+				{
+					new UIAlertView("Could Not Save","Please fill in all fields",null,"Close",null).Show();
+					return;
+				}
+
 				var house = new House(){
 					Address = addressTextField.Text,
 					City = cityTextField.Text,
@@ -29,17 +38,40 @@ namespace ChristmasLightsFinder.IOS
 					Country = "Canada"
 				};
 
-				var imageFile = new ParseFile(string.Format("{0}.jpg",house.FullAddress),houseImageView.Image.AsJPEG().AsStream());
-				await imageFile.SaveAsync();
-				house.Image = imageFile;
+				//Save Parse File
+				try {
+					var imageFile = new ParseFile(string.Format("{0}.jpg",house.FullAddress),houseImageView.Image.AsJPEG(0.2f).AsStream());
+					await imageFile.SaveAsync();
+					house.Image = imageFile;
+				}
+				catch (Exception e)
+				{
+					new UIAlertView("Error Saving Image",e.Message,null,"Close",null).Show();
+					return;
+				}
 
-				await house.SaveAsync();
+				//Save House Parse object
+				try {
+					await house.SaveAsync();
+				}
+				catch (Exception e){
+					
+					new UIAlertView("Error Saving",e.Message,null,"Close",null).Show();
+					return;
+				}
+
 				this.NavigationController.PopViewController(true);
 			};
 
 			this.NavigationItem.RightBarButtonItem = saveBtn;
 		}
 
+		private void DismissKeyboards()
+		{
+			addressTextField.ResignFirstResponder ();
+			cityTextField.ResignFirstResponder ();
+			provinceTextField.ResignFirstResponder ();
+		}
 
 		private void addPhoto()
 		{

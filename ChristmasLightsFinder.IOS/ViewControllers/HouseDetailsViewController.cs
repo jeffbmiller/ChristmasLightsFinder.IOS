@@ -18,24 +18,26 @@ namespace ChristmasLightsFinder.IOS
 
 		public async override void ViewDidLoad ()
 		{
+			this.activityIndicator.Hidden = true;
 			base.ViewDidLoad ();
 			this.Title = House.Address;
+			this.addressLabel.Text = House.Address;
 
-			try {
-				this.activityIndicator.Hidden = false;
-				this.activityIndicator.StartAnimating();
-				var byteArray = await new HttpClient().GetByteArrayAsync(House.Image.Url);
+			if (House.Image != null) {
+				try {
+					this.activityIndicator.Hidden = false;
+					this.activityIndicator.StartAnimating ();
+					var byteArray = await new HttpClient ().GetByteArrayAsync (House.Image.Url);
 
-				var image = UIImage.LoadFromData (NSData.FromArray (byteArray));
-				this.houseImage.Image = image;
+					var image = UIImage.LoadFromData (NSData.FromArray (byteArray));
+					this.houseImage.Image = image;
 
-			}
-			catch (Exception e) {
-				Console.WriteLine ("Error Retrieving Image. {0}", e.Message);
-			}
-			finally{
-				this.activityIndicator.StopAnimating();
-				this.activityIndicator.Hidden = true;
+				} catch (Exception e) {
+					Console.WriteLine ("Error Retrieving Image. {0}", e.Message);
+				} finally {
+					this.activityIndicator.StopAnimating ();
+					this.activityIndicator.Hidden = true;
+				}
 			}
 		}
 	}

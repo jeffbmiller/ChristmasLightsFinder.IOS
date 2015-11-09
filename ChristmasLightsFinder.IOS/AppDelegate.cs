@@ -21,6 +21,12 @@ namespace ChristmasLightsFinder.IOS
 			// create a new window instance based on the screen size
 			Window = new UIWindow (UIScreen.MainScreen.Bounds);
 
+			UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes {
+				TextColor = UIColor.White
+			});
+			UIBarButtonItem.Appearance.TintColor = UIColor.White;
+			UINavigationBar.Appearance.TintColor = UIColor.White;
+
 			ParseObject.RegisterSubclass<House>();
 			ParseClient.Initialize("Sv0daWT1jgQ4pdSFvgbqkThjXRtZlFhUW47LMGqx", "LN6CeKOoC0SZtKmyHVizMGyzl80suzV7dgWkYsdw");
 
