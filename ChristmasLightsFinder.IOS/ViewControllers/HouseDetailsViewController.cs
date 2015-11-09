@@ -2,6 +2,8 @@ using Foundation;
 using System;
 using System.CodeDom.Compiler;
 using UIKit;
+using Parse;
+using System.Net.Http;
 
 namespace ChristmasLightsFinder.IOS
 {
@@ -14,11 +16,27 @@ namespace ChristmasLightsFinder.IOS
 
 		public House House {get;set;}
 
-		public override void ViewDidLoad ()
+		public async override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 			this.Title = House.Address;
 
+			try {
+				this.activityIndicator.Hidden = false;
+				this.activityIndicator.StartAnimating();
+				var byteArray = await new HttpClient().GetByteArrayAsync(House.Image.Url);
+
+				var image = UIImage.LoadFromData (NSData.FromArray (byteArray));
+				this.houseImage.Image = image;
+
+			}
+			catch (Exception e) {
+				Console.WriteLine ("Error Retrieving Image. {0}", e.Message);
+			}
+			finally{
+				this.activityIndicator.StopAnimating();
+				this.activityIndicator.Hidden = true;
+			}
 		}
 	}
 }

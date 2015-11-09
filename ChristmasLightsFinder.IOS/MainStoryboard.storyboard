@@ -23,12 +23,12 @@
             <objects>
                 <viewController id="5" sceneMemberID="viewController" customClass="MapViewController">
                     <view key="view" contentMode="scaleToFill" id="10">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="14" fixedFrame="YES">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </mapView>
                         </subviews>
@@ -52,22 +52,22 @@
             <objects>
                 <tableViewController id="126" sceneMemberID="viewController" customClass="AddNewHouseViewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="127" showsSelectionImmediatelyOnTouchBegin="NO">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
                             <outlet property="dataSource" destination="126" id="128"/>
                             <outlet property="delegate" destination="126" id="129"/>
                         </connections>
-                        <imageView contentMode="scaleToFill" id="163" key="tableHeaderView">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="222"/>
+                        <imageView contentMode="scaleAspectFit" id="163" key="tableHeaderView">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="134"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
                         <sections>
                             <tableViewSection id="171">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="172">
-                                        <rect key="frame" x="0.0" y="444" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="268" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="172" id="173">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -83,7 +83,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="174">
-                                        <rect key="frame" x="0.0" y="488" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="312" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="174" id="175">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -99,7 +99,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="176">
-                                        <rect key="frame" x="0.0" y="532" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="356" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="176" id="177">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -133,12 +133,24 @@
             <objects>
                 <viewController id="379" sceneMemberID="viewController" storyboardIdentifier="HouseDetailsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" customClass="HouseDetailsViewController">
                     <view key="view" contentMode="scaleToFill" id="380">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <subviews/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="414" fixedFrame="YES">
+                                <rect key="frame" x="0.0" y="36" width="325" height="152"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="gray" fixedFrame="YES" id="443">
+                                <rect key="frame" x="150" y="123" width="20" height="17"/>
+                                <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
+                            </activityIndicatorView>
+                        </subviews>
                     </view>
-                    <connections/>
+                    <connections>
+                        <outlet property="houseImage" destination="414" id="name-outlet-414"/>
+                        <outlet property="activityIndicator" destination="443" id="name-outlet-443"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="381" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -148,6 +160,6 @@
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
 </document>
