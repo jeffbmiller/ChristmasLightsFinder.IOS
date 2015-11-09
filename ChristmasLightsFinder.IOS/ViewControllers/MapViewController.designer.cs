@@ -16,10 +16,18 @@ namespace ChristmasLightsFinder.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIBarButtonItem filterBarButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		MapKit.MKMapView mapView { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (filterBarButton != null) {
+				filterBarButton.Dispose ();
+				filterBarButton = null;
+			}
 			if (mapView != null) {
 				mapView.Dispose ();
 				mapView = null;

@@ -25,6 +25,19 @@ namespace ChristmasLightsFinder.IOS
 		{
 			base.ViewDidLoad ();
 			this.mapView.Delegate = new MapDelegate (this);
+			this.filterBarButton.Clicked += (object sender, EventArgs e) => {
+
+				var actionSheet = new UIActionSheet("Filter By",null,"Cancel",null,new string[]{"All", "With Music", "With Animation"});
+
+				actionSheet.Dismissed += (object aSheet, UIButtonEventArgs args) => {
+					if (args.ButtonIndex == actionSheet.CancelButtonIndex)
+						return;
+					
+				};
+
+				actionSheet.ShowInView(this.View);
+			};
+
 			Center ();
 		}
 
