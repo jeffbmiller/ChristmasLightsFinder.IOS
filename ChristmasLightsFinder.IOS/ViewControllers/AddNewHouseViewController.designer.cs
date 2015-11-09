@@ -20,11 +20,19 @@ namespace ChristmasLightsFinder.IOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UISwitch animationSwitch { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField cityTextField { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIImageView houseImageView { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UISwitch musicSwitch { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -36,6 +44,10 @@ namespace ChristmasLightsFinder.IOS
 				addressTextField.Dispose ();
 				addressTextField = null;
 			}
+			if (animationSwitch != null) {
+				animationSwitch.Dispose ();
+				animationSwitch = null;
+			}
 			if (cityTextField != null) {
 				cityTextField.Dispose ();
 				cityTextField = null;
@@ -43,6 +55,10 @@ namespace ChristmasLightsFinder.IOS
 			if (houseImageView != null) {
 				houseImageView.Dispose ();
 				houseImageView = null;
+			}
+			if (musicSwitch != null) {
+				musicSwitch.Dispose ();
+				musicSwitch = null;
 			}
 			if (provinceTextField != null) {
 				provinceTextField.Dispose ();

@@ -35,7 +35,9 @@ namespace ChristmasLightsFinder.IOS
 					Address = addressTextField.Text,
 					City = cityTextField.Text,
 					Province = provinceTextField.Text,
-					Country = "Canada"
+					Country = "Canada",
+					Music = musicSwitch.On,
+					Animation = animationSwitch.On
 				};
 
 				//Save Parse File

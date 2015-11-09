@@ -34,6 +34,20 @@ namespace ChristmasLightsFinder.IOS
 			set { SetProperty<string>(value); }
 		}
 
+		[ParseFieldName("music")]
+		public bool Music
+		{
+			get { return GetProperty<bool>(); }
+			set { SetProperty<bool>(value); }
+		}
+
+		[ParseFieldName("animation")]
+		public bool Animation
+		{
+			get { return GetProperty<bool>(); }
+			set { SetProperty<bool>(value); }
+		}
+
 		[ParseFieldName("image")]
 		public ParseFile Image
 		{
