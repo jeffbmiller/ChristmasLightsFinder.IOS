@@ -30,6 +30,10 @@ namespace ChristmasLightsFinder.IOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton likeButton { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel likesLabel { get; set; }
+
 		[Action ("likeButton_TouchUpInside:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void likeButton_TouchUpInside (UIButton sender);
@@ -51,6 +55,10 @@ namespace ChristmasLightsFinder.IOS
 			if (likeButton != null) {
 				likeButton.Dispose ();
 				likeButton = null;
+			}
+			if (likesLabel != null) {
+				likesLabel.Dispose ();
+				likesLabel = null;
 			}
 		}
 	}

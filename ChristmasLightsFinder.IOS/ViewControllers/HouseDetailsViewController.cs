@@ -4,6 +4,7 @@ using System.CodeDom.Compiler;
 using UIKit;
 using Parse;
 using System.Net.Http;
+using System.Collections.Generic;
 
 namespace ChristmasLightsFinder.IOS
 {
@@ -21,7 +22,7 @@ namespace ChristmasLightsFinder.IOS
 			this.activityIndicator.Hidden = true;
 			base.ViewDidLoad ();
 			this.Title = House.Address;
-			this.addressLabel.Text = House.Address;
+			BindData ();
 
 			if (House.Image != null) {
 				try {
@@ -41,9 +42,25 @@ namespace ChristmasLightsFinder.IOS
 			}
 		}
 
-		partial void likeButton_TouchUpInside (UIButton sender)
+		async partial void likeButton_TouchUpInside (UIButton sender)
 		{
-			throw new NotImplementedException ();
+			var paramsDictionary = new Dictionary<string, object>();
+			paramsDictionary.Add("objectId",House.ObjectId);
+			try {
+				var result = await Parse.ParseCloud.CallFunctionAsync<House>("likeHouse",paramsDictionary);
+				this.House = result;
+				BindData ();
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+			}
+		}
+
+		private void BindData()
+		{
+			this.addressLabel.Text = House.Address;
+			this.likesLabel.Text = string.Format ("({0}) Likes", House.Likes);
 		}
 	}
 }

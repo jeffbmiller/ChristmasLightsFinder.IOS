@@ -41,15 +41,17 @@ namespace ChristmasLightsFinder.IOS
 				};
 
 				//Save Parse File
-				try {
-					var imageFile = new ParseFile(string.Format("{0}.jpg",house.FullAddress),houseImageView.Image.AsJPEG(0.2f).AsStream());
-					await imageFile.SaveAsync();
-					house.Image = imageFile;
-				}
-				catch (Exception e)
-				{
-					new UIAlertView("Error Saving Image",e.Message,null,"Close",null).Show();
-					return;
+				if (houseImageView.Image != null){
+					try {
+						var imageFile = new ParseFile(string.Format("{0}.jpg",house.FullAddress),houseImageView.Image.AsJPEG(0.2f).AsStream());
+						await imageFile.SaveAsync();
+						house.Image = imageFile;
+					}
+					catch (Exception e)
+					{
+						new UIAlertView("Error Saving Image",e.Message,null,"Close",null).Show();
+						return;
+					}
 				}
 
 				//Save House Parse object

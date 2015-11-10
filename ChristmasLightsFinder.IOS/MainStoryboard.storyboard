@@ -228,6 +228,9 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
                                 </state>
+                                <connections>
+                                    <action selector="likeButton_TouchUpInside:" destination="379" id="629" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                         </subviews>
                     </view>
@@ -236,6 +239,7 @@
                         <outlet property="activityIndicator" destination="443" id="name-outlet-443"/>
                         <outlet property="addressLabel" destination="481" id="name-outlet-481"/>
                         <outlet property="likeButton" destination="628" id="name-outlet-628"/>
+                        <outlet property="likesLabel" destination="625" id="name-outlet-625"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="381" userLabel="First Responder" sceneMemberID="firstResponder"/>

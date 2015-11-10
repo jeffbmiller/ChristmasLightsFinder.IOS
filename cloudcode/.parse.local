@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "ChristmasLightsFinder": {
+      "applicationId": "Sv0daWT1jgQ4pdSFvgbqkThjXRtZlFhUW47LMGqx"
+    },
+    "_default": {
+      "link": "ChristmasLightsFinder"
+    }
+  }
+}
