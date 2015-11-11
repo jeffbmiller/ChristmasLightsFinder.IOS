@@ -98,14 +98,18 @@ namespace ChristmasLightsFinder.IOS
 
 				// if we couldn't dequeue one, create a new one
 				if (annotationView == null)
-					annotationView = new MKPinAnnotationView(annotation, annotationIdentifier);
+					annotationView = new MKAnnotationView(annotation, annotationIdentifier);
 				else // if we did dequeue one for reuse, assign the annotation to it
 					annotationView.Annotation = annotation;
 
 				// configure our annotation view properties
 				annotationView.CanShowCallout = true;
-				(annotationView as MKPinAnnotationView).AnimatesDrop = true;
-				(annotationView as MKPinAnnotationView).PinColor = MKPinAnnotationColor.Green;
+				nfloat r;
+				nfloat g;
+				nfloat b;
+				nfloat a;
+				UIColor.Blue.GetRGBA(out r, out g, out b, out a);
+				annotationView.Image = LightMapPointStyleKit.ImageOfLightMapPoint ((float)r,(float)g,(float)b,(float)a);
 				annotationView.Selected = true;
 
 				// you can add an accessory view, in this case, we'll add a button on the right, and an image on the left

@@ -98,6 +98,7 @@
     <Compile Include="ViewControllers\HouseDetailsViewController.designer.cs">
       <DependentUpon>HouseDetailsViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomControls\LightMapPointStyleKit.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -105,5 +106,6 @@
     <Folder Include="Models\" />
     <Folder Include="Services\" />
     <Folder Include="Views\" />
+    <Folder Include="CustomControls\" />
   </ItemGroup>
 </Project>
