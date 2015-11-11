@@ -9,9 +9,9 @@ namespace ChristmasLightsFinder.IOS
 		public static UIColor GetRandomColor()
 		{
 			var rnd = new Random();
-			var colorIndex = rnd.Next(0, 2);
+			var colorIndex = rnd.Next(0, 3);
 
-			var colors = new List<UIColor> (){UIColor.Blue, UIColor.Red, UIColor.Purple};
+			var colors = new List<UIColor> (){UIColor.Blue, UIColor.Red, UIColor.Green,  UIColor.Purple};
 
 			return colors[colorIndex];
 		}

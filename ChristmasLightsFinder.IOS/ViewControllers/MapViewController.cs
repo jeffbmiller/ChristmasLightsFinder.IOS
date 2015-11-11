@@ -43,8 +43,8 @@ namespace ChristmasLightsFinder.IOS
 
 		private void Center()
 		{
-			var coords = new CLLocationCoordinate2D(49.8422096,-99.940394);
-			var span = new MKCoordinateSpan(0.5, 0.5);
+			var coords = new CLLocationCoordinate2D(49.8423203,-99.9584185);
+			var span = new MKCoordinateSpan(0.1, 0.1);
 			mapView.Region = new MKCoordinateRegion(coords, span);
 		}
 
