@@ -47,8 +47,8 @@ namespace ChristmasLightsFinder.IOS
 			var paramsDictionary = new Dictionary<string, object>();
 			paramsDictionary.Add("objectId",House.ObjectId);
 			try {
-				var result = await Parse.ParseCloud.CallFunctionAsync<House>("likeHouse",paramsDictionary);
-				this.House = result;
+				var result = await Parse.ParseCloud.CallFunctionAsync<int>("likeHouse",paramsDictionary);
+				this.House.Likes = result;
 				BindData ();
 			}
 			catch (Exception e)
