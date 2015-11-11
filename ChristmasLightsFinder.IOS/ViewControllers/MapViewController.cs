@@ -108,7 +108,7 @@ namespace ChristmasLightsFinder.IOS
 				nfloat g;
 				nfloat b;
 				nfloat a;
-				UIColor.Blue.GetRGBA(out r, out g, out b, out a);
+				RandomColorHelper.GetRandomColor().GetRGBA(out r, out g, out b, out a);
 				annotationView.Image = LightMapPointStyleKit.ImageOfLightMapPoint ((float)r,(float)g,(float)b,(float)a);
 				annotationView.Selected = true;
 

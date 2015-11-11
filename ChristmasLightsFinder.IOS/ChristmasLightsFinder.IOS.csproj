@@ -99,6 +99,7 @@
       <DependentUpon>HouseDetailsViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\LightMapPointStyleKit.cs" />
+    <Compile Include="CustomControls\RandomColorHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
