@@ -1,6 +1,7 @@
 ﻿using Foundation;
 using UIKit;
 using Parse;
+using System;
 
 namespace ChristmasLightsFinder.IOS
 {
@@ -37,6 +38,11 @@ namespace ChristmasLightsFinder.IOS
 			Window.MakeKeyAndVisible ();
 
 			return true;
+		}
+
+		public override void WillEnterForeground (UIApplication application)
+		{
+			NSNotificationCenter.DefaultCenter.PostNotificationName("AppOpened", this);
 		}
 
 	}

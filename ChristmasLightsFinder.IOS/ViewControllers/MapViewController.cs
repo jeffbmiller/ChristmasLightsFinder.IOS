@@ -15,7 +15,7 @@ namespace ChristmasLightsFinder.IOS
 		private CLGeocoder geocoder;
 		private readonly HouseService houseService;
 		private bool isAdmin;
-
+		private NSObject observer;
 		public MapViewController (IntPtr handle) : base (handle)
 		{
 			geocoder = new CoreLocation.CLGeocoder ();
@@ -25,8 +25,22 @@ namespace ChristmasLightsFinder.IOS
 			isAdmin =  NSBundle.MainBundle.ObjectForInfoDictionary("AllowAddNew").ToString() == "1";
 		}
 
+		public override void ViewWillDisappear (bool animated)
+		{
+			base.ViewWillDisappear (animated);
+			if (observer != null)
+				NSNotificationCenter.DefaultCenter.RemoveObserver (observer);
+		}
+
+
 		public async override void ViewDidLoad ()
 		{
+			if (observer == null){
+				observer = NSNotificationCenter.DefaultCenter.AddObserver (new NSString ("AppOpened"), (x)=>{
+					if (!IsBusy)
+						Reload();
+				});
+			}
 			// If Not Admin Remove Add button
 			if (!isAdmin) {
 				this.NavigationItem.RightBarButtonItem = null;
@@ -60,19 +74,29 @@ namespace ChristmasLightsFinder.IOS
 		{
 			base.ViewDidAppear (animated);
 
+			Reload ();
+
+		}
+
+		private async void Reload()
+		{
 			try {
 				UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
 				var houses = await houseService.GetHousesAsync ();
 				foreach (var house in houses) {
-					var geoAddress = await geocoder.GeocodeAddressAsync (house.FullAddress);
-
-					var annotation = new HouseMapAnnotation (geoAddress [0].Location.Coordinate, house.Address, house);
-				
-					var existing = this.mapView.Annotations.ToList ();
-					if (existing.Any (x => x.Coordinate.Latitude == annotation.Coordinate.Latitude &&
-						x.Coordinate.Longitude == annotation.Coordinate.Longitude))
+					
+					var existing = this.mapView.Annotations.OfType<HouseMapAnnotation>().ToList ();
+					if (existing.Any (x => x.House.Address == house.Address)){
+						
 						continue;
-					this.mapView.AddAnnotation (annotation);
+					}
+					else{
+						var geoAddress = await geocoder.GeocodeAddressAsync (house.FullAddress);
+
+						var annotation = new HouseMapAnnotation (geoAddress [0].Location.Coordinate, house.Address, house);
+
+						this.mapView.AddAnnotation (annotation);
+					}
 				}
 			}
 			catch(Exception e) {
@@ -83,6 +107,7 @@ namespace ChristmasLightsFinder.IOS
 			}
 		}
 
+		private bool IsBusy { get {return UIApplication.SharedApplication.NetworkActivityIndicatorVisible; } }
 
 		protected class MapDelegate : MKMapViewDelegate
 		{
