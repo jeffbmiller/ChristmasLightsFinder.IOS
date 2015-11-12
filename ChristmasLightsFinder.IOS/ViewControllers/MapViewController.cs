@@ -33,18 +33,18 @@ namespace ChristmasLightsFinder.IOS
 			}
 			base.ViewDidLoad ();
 			this.mapView.Delegate = new MapDelegate (this);
-			this.filterBarButton.Clicked += (object sender, EventArgs e) => {
-
-				var actionSheet = new UIActionSheet("Filter By",null,"Cancel",null,new string[]{"All", "With Music", "With Animation"});
-
-				actionSheet.Dismissed += (object aSheet, UIButtonEventArgs args) => {
-					if (args.ButtonIndex == actionSheet.CancelButtonIndex)
-						return;
-					
-				};
-
-				actionSheet.ShowInView(this.View);
-			};
+//			this.filterBarButton.Clicked += (object sender, EventArgs e) => {
+//
+//				var actionSheet = new UIActionSheet("Filter By",null,"Cancel",null,new string[]{"All", "With Music", "With Animation"});
+//
+//				actionSheet.Dismissed += (object aSheet, UIButtonEventArgs args) => {
+//					if (args.ButtonIndex == actionSheet.CancelButtonIndex)
+//						return;
+//					
+//				};
+//
+//				actionSheet.ShowInView(this.View);
+//			};
 
 			Center ();
 		}
@@ -127,6 +127,7 @@ namespace ChristmasLightsFinder.IOS
 					Console.WriteLine ("Clicked");
 					var detailViewController = UIStoryboard.FromName ("MainStoryboard", null).InstantiateViewController("HouseDetailsViewController") as HouseDetailsViewController;
 					detailViewController.House = (annotation as HouseMapAnnotation).House;
+					mapView.DeselectAnnotation(annotation,true);
 					this.parent.NavigationController.PushViewController(detailViewController,true);
 				};
 				annotationView.RightCalloutAccessoryView = detailButton;
