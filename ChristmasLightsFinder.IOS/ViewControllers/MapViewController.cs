@@ -14,6 +14,7 @@ namespace ChristmasLightsFinder.IOS
 	{
 		private CLGeocoder geocoder;
 		private readonly HouseService houseService;
+		private bool isAdmin;
 
 		public MapViewController (IntPtr handle) : base (handle)
 		{
@@ -21,10 +22,15 @@ namespace ChristmasLightsFinder.IOS
 			houseService = new HouseService ();
 
 			this.NavigationItem.BackBarButtonItem = new UIBarButtonItem ("Back", UIBarButtonItemStyle.Plain,null);
+			isAdmin =  NSBundle.MainBundle.ObjectForInfoDictionary("AllowAddNew").ToString() == "1";
 		}
 
 		public async override void ViewDidLoad ()
 		{
+			// If Not Admin Remove Add button
+			if (!isAdmin) {
+				this.NavigationItem.RightBarButtonItem = null;
+			}
 			base.ViewDidLoad ();
 			this.mapView.Delegate = new MapDelegate (this);
 			this.filterBarButton.Clicked += (object sender, EventArgs e) => {

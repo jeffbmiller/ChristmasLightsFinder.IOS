@@ -39,5 +39,7 @@
 	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
 	<key>UIMainStoryboardFile</key>
 	<string>MainStoryboard</string>
+	<key>AllowAddNew</key>
+	<true/>
 </dict>
 </plist>

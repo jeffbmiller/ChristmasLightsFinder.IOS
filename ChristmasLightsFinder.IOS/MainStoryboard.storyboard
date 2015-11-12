@@ -52,6 +52,7 @@
                     <connections>
                         <outlet property="mapView" destination="14" id="name-outlet-14"/>
                         <outlet property="filterBarButton" destination="611" id="name-outlet-611"/>
+                        <outlet property="addNewBarButton" destination="24" id="name-outlet-24"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="11" userLabel="First Responder" sceneMemberID="firstResponder"/>

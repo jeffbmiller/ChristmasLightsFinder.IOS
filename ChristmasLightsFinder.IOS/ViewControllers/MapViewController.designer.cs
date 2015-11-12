@@ -16,6 +16,10 @@ namespace ChristmasLightsFinder.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIBarButtonItem addNewBarButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIBarButtonItem filterBarButton { get; set; }
 
 		[Outlet]
@@ -24,6 +28,10 @@ namespace ChristmasLightsFinder.IOS
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (addNewBarButton != null) {
+				addNewBarButton.Dispose ();
+				addNewBarButton = null;
+			}
 			if (filterBarButton != null) {
 				filterBarButton.Dispose ();
 				filterBarButton = null;
