@@ -63,6 +63,13 @@ namespace ChristmasLightsFinder.IOS
 			set { SetProperty<ParseFile>(value); }
 		}
 
+		[ParseFieldName("thumbnail")]
+		public ParseFile Thumbnail
+		{
+			get { return GetProperty<ParseFile>(); }
+			set { SetProperty<ParseFile>(value); }
+		}
+
 		public string FullAddress {get { return string.Format("{0} {1} {2}", Address,City, Country);}}
 	}
 }

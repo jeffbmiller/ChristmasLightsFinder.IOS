@@ -5,6 +5,8 @@ using UIKit;
 using MapKit;
 using CoreLocation;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace ChristmasLightsFinder.IOS
 {
@@ -123,9 +125,23 @@ namespace ChristmasLightsFinder.IOS
 				};
 				annotationView.RightCalloutAccessoryView = detailButton;
 
-//				annotationView.LeftCalloutAccessoryView = new UIImageView(UIImage.FromBundle("29_icon.png"));
-
+				FetchImageAsync(annotationView,(annotation as HouseMapAnnotation).House);
 				return annotationView;
+			}
+
+			private async void FetchImageAsync(MKAnnotationView annotationView, House house)
+			{
+				try {
+					if (house.Thumbnail == null) return;
+					var byteArray = await new HttpClient ().GetByteArrayAsync (house.Thumbnail.Url);
+
+					var image = UIImage.LoadFromData (NSData.FromArray (byteArray));
+					annotationView.LeftCalloutAccessoryView = new UIImageView(image);
+
+				} catch (Exception e) {
+					Console.WriteLine ("Error Retrieving Image. {0}", e.Message);
+				}
+
 			}
 
 			// as an optimization, you should override this method to add or remove annotations as the 
