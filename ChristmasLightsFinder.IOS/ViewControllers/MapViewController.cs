@@ -81,8 +81,8 @@ namespace ChristmasLightsFinder.IOS
 			finally{
 				UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
 			}
-
 		}
+
 
 		protected class MapDelegate : MKMapViewDelegate
 		{
@@ -100,7 +100,6 @@ namespace ChristmasLightsFinder.IOS
 			/// </summary>
 			public override MKAnnotationView GetViewForAnnotation (MKMapView mapView, IMKAnnotation annotation)
 			{
-
 				// try and dequeue the annotation view
 				MKAnnotationView annotationView = mapView.DequeueReusableAnnotation(annotationIdentifier);
 
@@ -126,7 +125,7 @@ namespace ChristmasLightsFinder.IOS
 				detailButton.TouchUpInside += (s, e) => { 
 					Console.WriteLine ("Clicked");
 					var detailViewController = UIStoryboard.FromName ("MainStoryboard", null).InstantiateViewController("HouseDetailsViewController") as HouseDetailsViewController;
-					detailViewController.House = (annotation as HouseMapAnnotation).House;
+					detailViewController.Annotation = annotation as HouseMapAnnotation;
 					mapView.DeselectAnnotation(annotation,true);
 					this.parent.NavigationController.PushViewController(detailViewController,true);
 				};

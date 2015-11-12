@@ -15,20 +15,20 @@ namespace ChristmasLightsFinder.IOS
 			
 		}
 
-		public House House {get;set;}
+		public HouseMapAnnotation Annotation {get;set;}
 
 		public async override void ViewDidLoad ()
 		{
 			this.activityIndicator.Hidden = true;
 			base.ViewDidLoad ();
-			this.Title = House.Address;
+			this.Title = Annotation.House.Address;
 			BindData ();
 
-			if (House.Image != null) {
+			if (Annotation.House.Image != null) {
 				try {
 					this.activityIndicator.Hidden = false;
 					this.activityIndicator.StartAnimating ();
-					var byteArray = await new HttpClient ().GetByteArrayAsync (House.Image.Url);
+					var byteArray = await new HttpClient ().GetByteArrayAsync (Annotation.House.Image.Url);
 
 					var image = UIImage.LoadFromData (NSData.FromArray (byteArray));
 					this.houseImage.Image = image;
@@ -45,10 +45,11 @@ namespace ChristmasLightsFinder.IOS
 		async partial void likeButton_TouchUpInside (UIButton sender)
 		{
 			var paramsDictionary = new Dictionary<string, object>();
-			paramsDictionary.Add("objectId",House.ObjectId);
+			paramsDictionary.Add("objectId",Annotation.House.ObjectId);
 			try {
 				var result = await Parse.ParseCloud.CallFunctionAsync<int>("likeHouse",paramsDictionary);
-				this.House.Likes = result;
+				this.Annotation.House.Likes = result;
+				Annotation.RefreshAnnotationView();
 				BindData ();
 			}
 			catch (Exception e)
@@ -59,8 +60,8 @@ namespace ChristmasLightsFinder.IOS
 
 		private void BindData()
 		{
-			this.addressLabel.Text = House.Address;
-			this.likesLabel.Text = string.Format ("({0}) Likes", House.Likes);
+			this.addressLabel.Text = Annotation.House.Address;
+			this.likesLabel.Text = string.Format ("({0}) Likes", Annotation.House.Likes);
 		}
 	}
 }

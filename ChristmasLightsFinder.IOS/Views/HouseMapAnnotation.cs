@@ -16,6 +16,12 @@ namespace ChristmasLightsFinder.IOS
 			this.coordinate = coordinate;
 			this.title = title;
 			this.House = house;
+			this.subtitle = string.Format ("({0}) Likes",house.Likes);
+		}
+
+		public void RefreshAnnotationView()
+		{
+			DidChangeValue ("subtitle");
 		}
 
 		public override CLLocationCoordinate2D Coordinate {

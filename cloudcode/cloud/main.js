@@ -7,15 +7,8 @@ Parse.Cloud.define("likeHouse", function (request, response) {
     query.get(request.params.objectId, {
         success: function (house) {
             house.increment("likes");
-
-            house.save(null, {
-                success: function (object) {
-                    response.success();
-                },
-                error: function (error) {
-                    response.error(error);
-                }
-            });
+            house.save();
+            response.success(house.get("likes"));
         },
         error: function (object, error) {
             response.error("House liked failed");
@@ -27,6 +20,7 @@ Parse.Cloud.beforeSave("House", function (request, response) {
 
     var query = new Parse.Query("House");
     query.equalTo("address", request.object.get("address"));
+    query.notEqualTo("objectId", request.object.get("objectId"));
     query.count({
         success: function (count) {
             console.log("Count " + count + " " + request.object.get("address"));
