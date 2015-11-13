@@ -245,6 +245,18 @@
                                 <nil key="highlightedColor"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="660" fixedFrame="YES">
+                                <rect key="frame" x="114" y="438" width="91" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" colorSpace="calibratedRGB" red="1" green="0" blue="0" alpha="1"/>
+                                <state key="normal" title="Navigate">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                                </state>
+                                <connections>
+                                    <action selector="navigateButton_TouchUpInside:" destination="379" id="661" eventType="touchUpInside"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -254,6 +266,7 @@
                         <outlet property="likeButton" destination="628" id="name-outlet-628"/>
                         <outlet property="likesLabel" destination="625" id="name-outlet-625"/>
                         <outlet property="cityProvLabel" destination="655" id="name-outlet-655"/>
+                        <outlet property="navigateButton" destination="660" id="name-outlet-660"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="381" userLabel="First Responder" sceneMemberID="firstResponder"/>

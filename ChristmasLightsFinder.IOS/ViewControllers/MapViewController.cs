@@ -145,7 +145,7 @@ namespace ChristmasLightsFinder.IOS
 			{
 				if (mapView.UserLocation != null) {
 					CLLocationCoordinate2D coords = mapView.UserLocation.Coordinate;
-					MKCoordinateSpan span = new MKCoordinateSpan(MilesToLatitudeDegrees(2), MilesToLongitudeDegrees(2, coords.Latitude));
+					MKCoordinateSpan span = new MKCoordinateSpan(MapHelper.MilesToLatitudeDegrees(2), MapHelper.MilesToLongitudeDegrees(2, coords.Latitude));
 					mapView.Region = new MKCoordinateRegion(coords, span);
 				}
 			}
@@ -212,35 +212,7 @@ namespace ChristmasLightsFinder.IOS
 
 			}
 
-			// as an optimization, you should override this method to add or remove annotations as the 
-			// map zooms in or out.
-			public override void RegionChanged (MKMapView mapView, bool animated) {}
-
-			/// <summary>
-			/// Converts miles to latitude degrees
-			/// </summary>
-			public double MilesToLatitudeDegrees(double miles)
-			{
-				double earthRadius = 3960.0;
-				double radiansToDegrees = 180.0/Math.PI;
-				return (miles/earthRadius) * radiansToDegrees;
-			}
-
-			/// <summary>
-			/// Converts miles to longitudinal degrees at a specified latitude
-			/// </summary>
-			public double MilesToLongitudeDegrees(double miles, double atLatitude)
-			{
-				double earthRadius = 3960.0;
-				double degreesToRadians = Math.PI/180.0;
-				double radiansToDegrees = 180.0/Math.PI;
-
-				// derive the earth's radius at that point in latitude
-				double radiusAtLatitude = earthRadius * Math.Cos(atLatitude * degreesToRadians);
-				return (miles / radiusAtLatitude) * radiansToDegrees;
-			}
-
-			private bool ThisIsTheCurrentLocation(MKMapView mapView, IMKAnnotation annotation)
+			private static bool ThisIsTheCurrentLocation(MKMapView mapView, IMKAnnotation annotation)
 			{
 				var userLocationAnnotation = ObjCRuntime.Runtime.GetNSObject(annotation.Handle) as MKUserLocation;
 				if(userLocationAnnotation != null)
@@ -250,6 +222,7 @@ namespace ChristmasLightsFinder.IOS
 
 				return false;
 			}
+
 		}
 	}
 
