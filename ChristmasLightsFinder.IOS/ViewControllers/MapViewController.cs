@@ -124,8 +124,8 @@ namespace ChristmasLightsFinder.IOS
 			locationManager.RequestWhenInUseAuthorization();
 			mapView.ShowsUserLocation = true;
 
-			if (mapView.UserLocation.Location == null)
-				new UIAlertView("Turn On Location Services For \"Christmas Lights Finder\" To Determine Your Locaiton.","Go to Settings -> Location Services -> Christmas Lights Finder to turn on.",null,"Close",null).Show();
+//			if (mapView.UserLocation.Location == null)
+//				new UIAlertView("Turn On Location Services For \"Christmas Lights Finder\" To Determine Your Locaiton.","Go to Settings -> Location Services -> Christmas Lights Finder to turn on.",null,"Close",null).Show();
 
 
 		}
@@ -145,7 +145,7 @@ namespace ChristmasLightsFinder.IOS
 			{
 				if (mapView.UserLocation != null) {
 					CLLocationCoordinate2D coords = mapView.UserLocation.Coordinate;
-					MKCoordinateSpan span = new MKCoordinateSpan(MapHelper.MilesToLatitudeDegrees(2), MapHelper.MilesToLongitudeDegrees(2, coords.Latitude));
+					MKCoordinateSpan span = new MKCoordinateSpan(MapHelper.MilesToLatitudeDegrees(0.2), MapHelper.MilesToLongitudeDegrees(0.2, coords.Latitude));
 					mapView.Region = new MKCoordinateRegion(coords, span);
 				}
 			}
