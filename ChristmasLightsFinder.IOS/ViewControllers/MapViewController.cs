@@ -13,6 +13,8 @@ namespace ChristmasLightsFinder.IOS
 	partial class MapViewController : UIViewController
 	{
 		private CLGeocoder geocoder;
+		CLLocationManager locationManager;
+
 		private readonly HouseService houseService;
 		private bool isAdmin;
 		private NSObject observer;
@@ -35,6 +37,7 @@ namespace ChristmasLightsFinder.IOS
 
 		public async override void ViewDidLoad ()
 		{
+
 			if (observer == null){
 				observer = NSNotificationCenter.DefaultCenter.AddObserver (new NSString ("AppOpened"), (x)=>{
 					if (!IsBusy)
@@ -109,6 +112,24 @@ namespace ChristmasLightsFinder.IOS
 
 		private bool IsBusy { get {return UIApplication.SharedApplication.NetworkActivityIndicatorVisible; } }
 
+		partial void trackCurrentLocationBtn_Activated (UIBarButtonItem sender)
+		{
+			if (locationManager == null)
+			{
+				// Set a movement threshold for new events.
+				locationManager = new CLLocationManager();
+				locationManager.DistanceFilter = 500f;
+			}
+
+			locationManager.RequestWhenInUseAuthorization();
+			mapView.ShowsUserLocation = true;
+
+			if (mapView.UserLocation.Location == null)
+				new UIAlertView("Turn On Location Services For \"Christmas Lights Finder\" To Determine Your Locaiton.","Go to Settings -> Location Services -> Christmas Lights Finder to turn on.",null,"Close",null).Show();
+
+
+		}
+
 		protected class MapDelegate : MKMapViewDelegate
 		{
 			protected string annotationIdentifier = "BasicAnnotation";
@@ -120,11 +141,26 @@ namespace ChristmasLightsFinder.IOS
 				this.parent = parent;
 			}
 
+			public override void DidUpdateUserLocation (MKMapView mapView, MKUserLocation userLocation)
+			{
+				if (mapView.UserLocation != null) {
+					CLLocationCoordinate2D coords = mapView.UserLocation.Coordinate;
+					MKCoordinateSpan span = new MKCoordinateSpan(MilesToLatitudeDegrees(2), MilesToLongitudeDegrees(2, coords.Latitude));
+					mapView.Region = new MKCoordinateRegion(coords, span);
+				}
+			}
+
 			/// <summary>
 			/// This is very much like the GetCell method on the table delegate
 			/// </summary>
 			public override MKAnnotationView GetViewForAnnotation (MKMapView mapView, IMKAnnotation annotation)
 			{
+				if(ThisIsTheCurrentLocation(mapView, annotation))
+				{
+					return null;
+				}
+
+			
 				// try and dequeue the annotation view
 				MKAnnotationView annotationView = mapView.DequeueReusableAnnotation(annotationIdentifier);
 
@@ -156,7 +192,8 @@ namespace ChristmasLightsFinder.IOS
 				};
 				annotationView.RightCalloutAccessoryView = detailButton;
 
-				FetchImageAsync(annotationView,(annotation as HouseMapAnnotation).House);
+				if (annotation.GetType () == typeof(HouseMapAnnotation))
+					FetchImageAsync(annotationView,(annotation as HouseMapAnnotation).House);
 				return annotationView;
 			}
 
@@ -178,6 +215,41 @@ namespace ChristmasLightsFinder.IOS
 			// as an optimization, you should override this method to add or remove annotations as the 
 			// map zooms in or out.
 			public override void RegionChanged (MKMapView mapView, bool animated) {}
+
+			/// <summary>
+			/// Converts miles to latitude degrees
+			/// </summary>
+			public double MilesToLatitudeDegrees(double miles)
+			{
+				double earthRadius = 3960.0;
+				double radiansToDegrees = 180.0/Math.PI;
+				return (miles/earthRadius) * radiansToDegrees;
+			}
+
+			/// <summary>
+			/// Converts miles to longitudinal degrees at a specified latitude
+			/// </summary>
+			public double MilesToLongitudeDegrees(double miles, double atLatitude)
+			{
+				double earthRadius = 3960.0;
+				double degreesToRadians = Math.PI/180.0;
+				double radiansToDegrees = 180.0/Math.PI;
+
+				// derive the earth's radius at that point in latitude
+				double radiusAtLatitude = earthRadius * Math.Cos(atLatitude * degreesToRadians);
+				return (miles / radiusAtLatitude) * radiansToDegrees;
+			}
+
+			private bool ThisIsTheCurrentLocation(MKMapView mapView, IMKAnnotation annotation)
+			{
+				var userLocationAnnotation = ObjCRuntime.Runtime.GetNSObject(annotation.Handle) as MKUserLocation;
+				if(userLocationAnnotation != null)
+				{
+					return userLocationAnnotation == mapView.UserLocation;
+				}
+
+				return false;
+			}
 		}
 	}
 

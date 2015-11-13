@@ -22,6 +22,14 @@ namespace ChristmasLightsFinder.IOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		MapKit.MKMapView mapView { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIBarButtonItem trackCurrentLocationBtn { get; set; }
+
+		[Action ("trackCurrentLocationBtn_Activated:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void trackCurrentLocationBtn_Activated (UIBarButtonItem sender);
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (addNewBarButton != null) {
@@ -31,6 +39,10 @@ namespace ChristmasLightsFinder.IOS
 			if (mapView != null) {
 				mapView.Dispose ();
 				mapView = null;
+			}
+			if (trackCurrentLocationBtn != null) {
+				trackCurrentLocationBtn.Dispose ();
+				trackCurrentLocationBtn = null;
 			}
 		}
 	}

@@ -41,5 +41,7 @@
 	<string>MainStoryboard</string>
 	<key>AllowAddNew</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>To show your current location on the map</string>
 </dict>
 </plist>
