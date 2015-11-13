@@ -23,16 +23,16 @@
             <objects>
                 <viewController id="5" sceneMemberID="viewController" customClass="MapViewController">
                     <view key="view" contentMode="scaleToFill" id="10">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="14" fixedFrame="YES">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
                             </mapView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="636" fixedFrame="YES">
-                                <rect key="frame" x="0.0" y="526" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="438" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem id="637" systemItem="play">
@@ -66,15 +66,15 @@
             <objects>
                 <tableViewController id="126" sceneMemberID="viewController" customClass="AddNewHouseViewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="127" showsSelectionImmediatelyOnTouchBegin="NO">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
                             <outlet property="dataSource" destination="126" id="128"/>
                             <outlet property="delegate" destination="126" id="129"/>
                         </connections>
-                        <imageView contentMode="scaleAspectFit" id="163" key="tableHeaderView">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="165"/>
+                        <imageView contentMode="scaleAspectFill" id="163" key="tableHeaderView">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="164.5"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
                             <color key="backgroundColor" colorSpace="calibratedWhite" white="0.666666666666667" alpha="1"/>
                         </imageView>
@@ -82,7 +82,7 @@
                             <tableViewSection id="171">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="172">
-                                        <rect key="frame" x="0.0" y="330" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="329" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="172" id="173">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -98,7 +98,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="174">
-                                        <rect key="frame" x="0.0" y="374" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="373" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="174" id="175">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -114,7 +114,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="176">
-                                        <rect key="frame" x="0.0" y="418" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="417" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="176" id="177">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -130,7 +130,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="596">
-                                        <rect key="frame" x="0.0" y="462" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="461" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="596" id="597">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -153,7 +153,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="598">
-                                        <rect key="frame" x="0.0" y="506" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="505" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="598" id="599">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -196,46 +196,55 @@
             <objects>
                 <viewController id="379" sceneMemberID="viewController" storyboardIdentifier="HouseDetailsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" customClass="HouseDetailsViewController">
                     <view key="view" contentMode="scaleToFill" id="380">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" id="414" fixedFrame="YES">
-                                <rect key="frame" x="0.0" y="17" width="320" height="355.5"/>
+                                <rect key="frame" x="0.0" y="13" width="320" height="300.5"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
                             </imageView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="gray" fixedFrame="YES" id="443">
-                                <rect key="frame" x="150" y="207.5" width="20" height="17"/>
+                                <rect key="frame" x="150" y="173" width="20" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
                             </activityIndicatorView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="3514 Rosser Ave" lineBreakMode="tailTruncation" minimumFontSize="10" id="481" fixedFrame="YES" textAlignment="center">
-                                <rect key="frame" x="0.0" y="330" width="320" height="36"/>
+                                <rect key="frame" x="0.0" y="320" width="320" height="30"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                <color key="textColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                                <color key="textColor" colorSpace="calibratedWhite" white="0" alpha="1"/>
                                 <nil key="highlightedColor"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="(9) Likes" lineBreakMode="tailTruncation" minimumFontSize="10" id="625" fixedFrame="YES" textAlignment="center">
-                                <rect key="frame" x="0.0" y="488" width="119" height="24"/>
+                                <rect key="frame" x="101" y="372" width="118" height="20"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="628" fixedFrame="YES">
-                                <rect key="frame" x="183" y="477" width="87" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="628" fixedFrame="YES">
+                                <rect key="frame" x="116" y="400" width="89" height="30"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <color key="backgroundColor" colorSpace="calibratedRGB" red="1" green="0" blue="0" alpha="1"/>
                                 <state key="normal" title="Like">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
+                                    <color key="titleColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
                                 </state>
                                 <connections>
                                     <action selector="likeButton_TouchUpInside:" destination="379" id="629" eventType="touchUpInside"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Brandon, Manitoba" lineBreakMode="tailTruncation" minimumFontSize="10" id="655" fixedFrame="YES" textAlignment="center">
+                                <rect key="frame" x="0.0" y="340" width="320" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <color key="textColor" colorSpace="calibratedWhite" white="0" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
+                            </label>
                         </subviews>
                     </view>
                     <connections>
@@ -244,6 +253,7 @@
                         <outlet property="addressLabel" destination="481" id="name-outlet-481"/>
                         <outlet property="likeButton" destination="628" id="name-outlet-628"/>
                         <outlet property="likesLabel" destination="625" id="name-outlet-625"/>
+                        <outlet property="cityProvLabel" destination="655" id="name-outlet-655"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="381" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -254,7 +264,7 @@
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <color key="tintColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
 </document>

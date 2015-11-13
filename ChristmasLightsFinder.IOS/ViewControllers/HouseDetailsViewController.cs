@@ -61,6 +61,7 @@ namespace ChristmasLightsFinder.IOS
 		private void BindData()
 		{
 			this.addressLabel.Text = Annotation.House.Address;
+			this.cityProvLabel.Text = string.Format ("{0}, {1}", Annotation.House.City, Annotation.House.Province);
 			this.likesLabel.Text = string.Format ("({0}) Likes", Annotation.House.Likes);
 		}
 	}

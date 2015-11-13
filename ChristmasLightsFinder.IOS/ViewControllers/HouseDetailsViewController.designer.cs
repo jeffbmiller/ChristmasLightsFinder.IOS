@@ -24,6 +24,10 @@ namespace ChristmasLightsFinder.IOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel cityProvLabel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIImageView houseImage { get; set; }
 
 		[Outlet]
@@ -47,6 +51,10 @@ namespace ChristmasLightsFinder.IOS
 			if (addressLabel != null) {
 				addressLabel.Dispose ();
 				addressLabel = null;
+			}
+			if (cityProvLabel != null) {
+				cityProvLabel.Dispose ();
+				cityProvLabel = null;
 			}
 			if (houseImage != null) {
 				houseImage.Dispose ();
