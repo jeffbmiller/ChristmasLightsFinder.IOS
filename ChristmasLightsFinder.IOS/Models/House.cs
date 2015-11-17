@@ -70,6 +70,21 @@ namespace ChristmasLightsFinder.IOS
 			set { SetProperty<ParseFile>(value); }
 		}
 
+		[ParseFieldName("longitude")]
+		public double Longitude
+		{
+			get { return GetProperty<double>(); }
+			set { SetProperty<double>(value); }
+		}
+
+
+		[ParseFieldName("latitude")]
+		public double Latitude
+		{
+			get { return GetProperty<double>(); }
+			set { SetProperty<double>(value); }
+		}
+
 		public string FullAddress {get { return string.Format("{0} {1} {2}", Address,City, Country);}}
 	}
 }

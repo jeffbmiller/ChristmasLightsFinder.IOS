@@ -12,7 +12,7 @@ namespace ChristmasLightsFinder.IOS
 {
 	partial class MapViewController : UIViewController
 	{
-		private CLGeocoder geocoder;
+//		private CLGeocoder geocoder;
 		CLLocationManager locationManager;
 
 		private readonly HouseService houseService;
@@ -20,7 +20,7 @@ namespace ChristmasLightsFinder.IOS
 		private NSObject observer;
 		public MapViewController (IntPtr handle) : base (handle)
 		{
-			geocoder = new CoreLocation.CLGeocoder ();
+//			geocoder = new CoreLocation.CLGeocoder ();
 			houseService = new HouseService ();
 
 			this.NavigationItem.BackBarButtonItem = new UIBarButtonItem ("Back", UIBarButtonItemStyle.Plain,null);
@@ -94,9 +94,9 @@ namespace ChristmasLightsFinder.IOS
 						continue;
 					}
 					else{
-						var geoAddress = await geocoder.GeocodeAddressAsync (house.FullAddress);
+//						var geoAddress = await geocoder.GeocodeAddressAsync (house.FullAddress);
 
-						var annotation = new HouseMapAnnotation (geoAddress [0].Location.Coordinate, house.Address, house);
+						var annotation = new HouseMapAnnotation (new CLLocationCoordinate2D(house.Latitude,house.Longitude), house.Address, house);
 
 						this.mapView.AddAnnotation (annotation);
 					}

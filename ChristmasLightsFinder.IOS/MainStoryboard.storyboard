@@ -35,7 +35,7 @@
                                 <rect key="frame" x="0.0" y="438" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem id="637" systemItem="play">
+                                    <barButtonItem id="637" image="ic_my_location_white.png">
                                         <connections>
                                             <action selector="trackCurrentLocationBtn_Activated:" destination="5" id="638"/>
                                         </connections>
@@ -274,6 +274,33 @@
             </objects>
             <point key="canvasLocation" x="975" y="713"/>
         </scene>
+        <scene sceneID="668">
+            <objects>
+                <tableViewController id="669" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="670">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="673">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="673" id="674">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="669" id="671"/>
+                            <outlet property="delegate" destination="669" id="672"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="675" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="527" y="679"/>
+        </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
@@ -281,4 +308,9 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <color key="tintColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+    <resources>
+        <image name="ic_my_location_white.png" width="24" height="24"/>
+        <image name="ic_my_location_white_2x.png" width="48" height="48"/>
+        <image name="ic_my_location_white_3x.png" width="72" height="72"/>
+    </resources>
 </document>

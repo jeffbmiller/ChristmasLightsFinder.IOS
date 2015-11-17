@@ -110,4 +110,9 @@
     <Folder Include="Views\" />
     <Folder Include="CustomControls\" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_my_location_white.png" />
+    <BundleResource Include="Resources\ic_my_location_white_2x.png" />
+    <BundleResource Include="Resources\ic_my_location_white_3x.png" />
+  </ItemGroup>
 </Project>

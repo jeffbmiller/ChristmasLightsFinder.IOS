@@ -3,11 +3,15 @@ using System;
 using System.CodeDom.Compiler;
 using UIKit;
 using Parse;
+using CoreLocation;
+using AddressBook;
 
 namespace ChristmasLightsFinder.IOS
 {
 	partial class AddNewHouseViewController : UITableViewController
 	{
+		CLLocationManager locationManager;
+
 		public AddNewHouseViewController (IntPtr handle) : base (handle)
 		{
 		}
@@ -20,6 +24,29 @@ namespace ChristmasLightsFinder.IOS
 				DismissKeyboards();
 				addPhoto ();
 			}));
+
+			var myLocationBtn = new UIBarButtonItem (UIImage.FromFile ("ic_my_location_white.png"), UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => {
+				if (locationManager == null)
+				{
+					// Set a movement threshold for new events.
+					locationManager = new CLLocationManager();
+					locationManager.DistanceFilter = 500f;
+				}
+
+				locationManager.RequestWhenInUseAuthorization();
+				locationManager.StartUpdatingLocation();
+
+				locationManager.LocationsUpdated += async (object s, CLLocationsUpdatedEventArgs args) => {
+
+					var geocoder = new CoreLocation.CLGeocoder ();
+					var result = await geocoder.ReverseGeocodeLocationAsync(new CLLocation(locationManager.Location.Coordinate.Latitude, locationManager.Location.Coordinate.Longitude));
+
+					addressTextField.Text = result[0].AddressDictionary.ValueForKey(ABPersonAddressKey.Street).ToString();
+					cityTextField.Text =  result[0].AddressDictionary.ValueForKey(ABPersonAddressKey.City).ToString();
+					provinceTextField.Text = result[0].AddressDictionary.ValueForKey(ABPersonAddressKey.State).ToString();
+					locationManager.StopUpdatingLocation();
+				};
+			});
 
 			var saveBtn = new UIBarButtonItem (UIBarButtonSystemItem.Save);
 			saveBtn.Clicked += async delegate {
@@ -36,9 +63,16 @@ namespace ChristmasLightsFinder.IOS
 					City = cityTextField.Text,
 					Province = provinceTextField.Text,
 					Country = "Canada",
+
 					Music = musicSwitch.On,
 					Animation = animationSwitch.On
 				};
+
+				if (locationManager.Location != null)
+				{
+					house.Longitude = locationManager.Location.Coordinate.Longitude;
+					house.Latitude = locationManager.Location.Coordinate.Latitude;
+				}
 
 				//Save Parse File
 				if (houseImageView.Image != null){
@@ -67,7 +101,7 @@ namespace ChristmasLightsFinder.IOS
 				this.NavigationController.PopViewController(true);
 			};
 
-			this.NavigationItem.RightBarButtonItem = saveBtn;
+			this.NavigationItem.RightBarButtonItems = new UIBarButtonItem[]{ saveBtn, myLocationBtn };
 		}
 
 		private void DismissKeyboards()
