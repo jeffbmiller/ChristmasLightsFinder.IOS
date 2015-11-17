@@ -236,6 +236,9 @@
                                 <connections>
                                     <action selector="likeButton_TouchUpInside:" destination="379" id="629" eventType="touchUpInside"/>
                                 </connections>
+                                <state key="selected">
+                                    <color key="titleColor" colorSpace="calibratedRGB" red="0.19215686274509805" green="0.30588235294117649" blue="0.52156862745098043" alpha="1"/>
+                                </state>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Brandon, Manitoba" lineBreakMode="tailTruncation" minimumFontSize="10" id="655" fixedFrame="YES" textAlignment="center">
                                 <rect key="frame" x="0.0" y="472" width="375" height="42"/>

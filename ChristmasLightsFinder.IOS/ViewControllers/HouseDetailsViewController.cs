@@ -6,23 +6,37 @@ using Parse;
 using System.Net.Http;
 using System.Collections.Generic;
 using MapKit;
+using System.IO;
+using System.Linq;
 
 namespace ChristmasLightsFinder.IOS
 {
 	public partial class HouseDetailsViewController : UIViewController
 	{
+		private List<string> housesLiked;
+		private string housesLikeFilename;
 		public HouseDetailsViewController (IntPtr handle) : base (handle)
 		{
-			
+			var documents = Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
+			var library = Path.Combine (documents, "..", "Library");
+			housesLikeFilename = Path.Combine (library, "HousesLiked.txt");
+			if (File.Exists (housesLikeFilename))
+				housesLiked = File.ReadAllText (housesLikeFilename).Split (';').ToList ();
+			else
+				housesLiked = new List<string>();
+
 		}
 
 		public HouseMapAnnotation Annotation {get;set;}
+
+		public bool CanLike {get {return !housesLiked.Contains (Annotation.House.ObjectId); }}
 
 		public async override void ViewDidLoad ()
 		{
 			this.activityIndicator.Hidden = true;
 			base.ViewDidLoad ();
 			this.Title = Annotation.House.Address;
+
 			BindData ();
 
 			if (Annotation.House.Image != null) {
@@ -45,12 +59,20 @@ namespace ChristmasLightsFinder.IOS
 
 		async partial void likeButton_TouchUpInside (UIButton sender)
 		{
+
+			
 			var paramsDictionary = new Dictionary<string, object>();
 			paramsDictionary.Add("objectId",Annotation.House.ObjectId);
 			try {
 				var result = await Parse.ParseCloud.CallFunctionAsync<int>("likeHouse",paramsDictionary);
 				this.Annotation.House.Likes = result;
 				Annotation.RefreshAnnotationView();
+
+				//Update local cache to reflect house was liked
+				housesLiked.Add(Annotation.House.ObjectId);
+				var houseLikedString = string.Join(";",housesLiked);
+				File.WriteAllText(housesLikeFilename, houseLikedString );
+
 				BindData ();
 			}
 			catch (Exception e)
@@ -82,6 +104,8 @@ namespace ChristmasLightsFinder.IOS
 			this.addressLabel.Text = Annotation.House.Address;
 			this.cityProvLabel.Text = string.Format ("{0}, {1}", Annotation.House.City, Annotation.House.Province);
 			this.likesLabel.Text = string.Format ("({0}) Likes", Annotation.House.Likes);
+			this.likeButton.Enabled = CanLike;
+			this.likeButton.BackgroundColor = CanLike ? UIColor.Red : UIColor.Gray;
 		}
 	}
 }
