@@ -133,6 +133,8 @@ namespace ChristmasLightsFinder.IOS
 				if (e.ButtonIndex == sourceActionSheet.CancelButtonIndex) return;
 				if (e.ButtonIndex == 0){
 					//Camera
+					imagePicker.SourceType = UIImagePickerControllerSourceType.Camera;
+					this.PresentViewController(imagePicker,true,null);
 				}
 				if (e.ButtonIndex == 1) {
 					//Photo Library

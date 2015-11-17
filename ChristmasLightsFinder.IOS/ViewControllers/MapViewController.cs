@@ -95,10 +95,11 @@ namespace ChristmasLightsFinder.IOS
 
 				//Update Annotation from Server
 				foreach (var house in houses) {
-					
-					if (existing.Any (x => x.House.ObjectId == house.ObjectId)){
-						existing.FirstOrDefault().House.Likes = house.Likes;
-						continue;
+					var existingAnnotation = existing.FirstOrDefault (x => x.House.ObjectId == house.ObjectId);
+					if (existingAnnotation != null && existingAnnotation.House.Likes != house.Likes){
+						this.mapView.RemoveAnnotation(existingAnnotation);
+						var annotation = new HouseMapAnnotation (new CLLocationCoordinate2D(house.Latitude,house.Longitude), house.Address, house);
+						this.mapView.AddAnnotation(annotation);
 					}
 					else{
 
@@ -189,6 +190,7 @@ namespace ChristmasLightsFinder.IOS
 
 				// you can add an accessory view, in this case, we'll add a button on the right, and an image on the left
 				detailButton = UIButton.FromType(UIButtonType.DetailDisclosure);
+				detailButton.TintColor = UIColor.Black;
 
 				detailButton.TouchUpInside += (s, e) => { 
 					Console.WriteLine ("Clicked");
