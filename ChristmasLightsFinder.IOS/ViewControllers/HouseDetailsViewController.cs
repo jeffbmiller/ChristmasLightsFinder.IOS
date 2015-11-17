@@ -59,23 +59,23 @@ namespace ChristmasLightsFinder.IOS
 			}
 		}
 
-		partial void navigateButton_TouchUpInside (UIButton sender)
-		{
-			var item = new MKMapItem(new MKPlacemark(Annotation.Coordinate,new MKPlacemarkAddress(){
-				City = Annotation.House.City, 
-				Street = Annotation.House.Address, 
-				State = Annotation.House.Province,
-				Country = Annotation.House.Country
-			}));
-					
-			MKCoordinateRegion region = new MKCoordinateRegion(Annotation.Coordinate, new MKCoordinateSpan(MapHelper.MilesToLatitudeDegrees(2), MapHelper.MilesToLongitudeDegrees(2, Annotation.Coordinate.Latitude)));
-			
-
-			item.OpenInMaps(new MKLaunchOptions(){
-				MapCenter = region.Center,
-				MapSpan = region.Span
-			});
-		}
+//		partial void navigateButton_TouchUpInside (UIButton sender)
+//		{
+//			var item = new MKMapItem(new MKPlacemark(Annotation.Coordinate,new MKPlacemarkAddress(){
+//				City = Annotation.House.City, 
+//				Street = Annotation.House.Address, 
+//				State = Annotation.House.Province,
+//				Country = Annotation.House.Country
+//			}));
+//					
+//			MKCoordinateRegion region = new MKCoordinateRegion(Annotation.Coordinate, new MKCoordinateSpan(MapHelper.MilesToLatitudeDegrees(2), MapHelper.MilesToLongitudeDegrees(2, Annotation.Coordinate.Latitude)));
+//			
+//
+//			item.OpenInMaps(new MKLaunchOptions(){
+//				MapCenter = region.Center,
+//				MapSpan = region.Span
+//			});
+//		}
 
 		private void BindData()
 		{
