@@ -84,11 +84,20 @@ namespace ChristmasLightsFinder.IOS
 			try {
 				UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
 				var houses = await houseService.GetHousesAsync ();
+
+				var existing = this.mapView.Annotations.OfType<HouseMapAnnotation>().ToList ();
+
+				//If Deleted from Server remove from map
+				foreach (var annotation in existing) {
+					if (!houses.Any(x=>x.ObjectId == annotation.House.ObjectId))
+						this.mapView.RemoveAnnotation(annotation);
+				}
+
+				//Update Annotation from Server
 				foreach (var house in houses) {
 					
-					var existing = this.mapView.Annotations.OfType<HouseMapAnnotation>().ToList ();
-					if (existing.Any (x => x.House.Address == house.Address)){
-						
+					if (existing.Any (x => x.House.ObjectId == house.ObjectId)){
+						existing.FirstOrDefault().House.Likes = house.Likes;
 						continue;
 					}
 					else{
@@ -98,6 +107,7 @@ namespace ChristmasLightsFinder.IOS
 						this.mapView.AddAnnotation (annotation);
 					}
 				}
+
 			}
 			catch(Exception e) {
 				Console.WriteLine ("Error communicating with server. {0}",e.Message);
