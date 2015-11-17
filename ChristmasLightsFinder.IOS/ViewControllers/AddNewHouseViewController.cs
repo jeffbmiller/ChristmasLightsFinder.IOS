@@ -68,11 +68,13 @@ namespace ChristmasLightsFinder.IOS
 					Animation = animationSwitch.On
 				};
 
-				if (locationManager.Location != null)
+				if (locationManager != null && locationManager.Location != null)
 				{
 					house.Longitude = locationManager.Location.Coordinate.Longitude;
 					house.Latitude = locationManager.Location.Coordinate.Latitude;
 				}
+
+				BigTed.BTProgressHUD.Show("Saving...");
 
 				//Save Parse File
 				if (houseImageView.Image != null){
@@ -83,6 +85,7 @@ namespace ChristmasLightsFinder.IOS
 					}
 					catch (Exception e)
 					{
+						BigTed.BTProgressHUD.Dismiss();
 						new UIAlertView("Error Saving Image",e.Message,null,"Close",null).Show();
 						return;
 					}
@@ -93,11 +96,12 @@ namespace ChristmasLightsFinder.IOS
 					await house.SaveAsync();
 				}
 				catch (Exception e){
-					
+					BigTed.BTProgressHUD.Dismiss();
 					new UIAlertView("Error Saving",e.Message,null,"Close",null).Show();
 					return;
 				}
 
+				BigTed.BTProgressHUD.Dismiss();
 				this.NavigationController.PopViewController(true);
 			};
 

@@ -27,6 +27,7 @@ namespace ChristmasLightsFinder.IOS
 			});
 			UIBarButtonItem.Appearance.TintColor = UIColor.White;
 			UINavigationBar.Appearance.TintColor = UIColor.White;
+			UIApplication.SharedApplication.SetStatusBarStyle (UIStatusBarStyle.LightContent, false);
 
 			ParseObject.RegisterSubclass<House>();
 			ParseClient.Initialize("Sv0daWT1jgQ4pdSFvgbqkThjXRtZlFhUW47LMGqx", "LN6CeKOoC0SZtKmyHVizMGyzl80suzV7dgWkYsdw");
