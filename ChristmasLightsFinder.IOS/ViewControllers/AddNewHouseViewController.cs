@@ -33,18 +33,30 @@ namespace ChristmasLightsFinder.IOS
 					locationManager.DistanceFilter = 500f;
 				}
 
-				locationManager.RequestWhenInUseAuthorization();
-				locationManager.StartUpdatingLocation();
+				if (CLLocationManager.Status != CLAuthorizationStatus.AuthorizedWhenInUse){
 
+					new UIAlertView("Turn On Location Services For \"Christmas Lights Finder\" To Determine Your Locaiton.","Go to Settings -> Location Services -> Christmas Lights Finder to turn on.",null,"Close",null).Show();
+				}
+				else {
+					locationManager.RequestWhenInUseAuthorization();
+					locationManager.StartUpdatingLocation();
+				}
 				locationManager.LocationsUpdated += async (object s, CLLocationsUpdatedEventArgs args) => {
 
 					var geocoder = new CoreLocation.CLGeocoder ();
-					var result = await geocoder.ReverseGeocodeLocationAsync(new CLLocation(locationManager.Location.Coordinate.Latitude, locationManager.Location.Coordinate.Longitude));
+					try {
+						var result = await geocoder.ReverseGeocodeLocationAsync(new CLLocation(locationManager.Location.Coordinate.Latitude, locationManager.Location.Coordinate.Longitude));
 
-					addressTextField.Text = result[0].AddressDictionary.ValueForKey(ABPersonAddressKey.Street).ToString();
-					cityTextField.Text =  result[0].AddressDictionary.ValueForKey(ABPersonAddressKey.City).ToString();
-					provinceTextField.Text = result[0].AddressDictionary.ValueForKey(ABPersonAddressKey.State).ToString();
-					locationManager.StopUpdatingLocation();
+						addressTextField.Text = result[0].AddressDictionary.ValueForKey(ABPersonAddressKey.Street).ToString();
+						cityTextField.Text =  result[0].AddressDictionary.ValueForKey(ABPersonAddressKey.City).ToString();
+						provinceTextField.Text = result[0].AddressDictionary.ValueForKey(ABPersonAddressKey.State).ToString();
+						locationManager.StopUpdatingLocation();
+
+					}
+					catch (Exception ex)
+					{
+						new UIAlertView("Error", "Unable to determine current location.",null,"OK",null).Show();
+					}
 				};
 			});
 
