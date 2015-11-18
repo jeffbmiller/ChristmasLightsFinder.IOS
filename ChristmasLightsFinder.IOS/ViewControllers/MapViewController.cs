@@ -111,17 +111,22 @@ namespace ChristmasLightsFinder.IOS
 				locationManager.DistanceFilter = 500f;
 			}
 
+			if (CLLocationManager.Status == CLAuthorizationStatus.NotDetermined){
+				locationManager.RequestWhenInUseAuthorization();
+				mapView.ShowsUserLocation = true;
+				return;
+			}
+
 			if (CLLocationManager.Status != CLAuthorizationStatus.AuthorizedWhenInUse){
 
 				new UIAlertView("Turn On Location Services For \"Christmas Lights Finder\" To Determine Your Locaiton.","Go to Settings -> Location Services -> Christmas Lights Finder to turn on.",null,"Close",null).Show();
 			}
 			else {
-
+				//Toggle Show User Location
 				if (mapView.ShowsUserLocation == true)
 					mapView.ShowsUserLocation = false;
 				else 
 				{
-					locationManager.RequestWhenInUseAuthorization();
 					mapView.ShowsUserLocation = true;
 				}
 			}
