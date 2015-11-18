@@ -45,7 +45,7 @@
                             </toolbar>
                         </subviews>
                     </view>
-                    <navigationItem key="navigationItem" id="9" title="Holiday Light Finder">
+                    <navigationItem key="navigationItem" id="9" title="Christmas Lights Finder">
                         <barButtonItem id="24" key="rightBarButtonItem" systemItem="add">
                             <connections>
                                 <segue id="161" destination="126" kind="push"/>

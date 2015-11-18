@@ -139,6 +139,8 @@ namespace ChristmasLightsFinder.IOS
 				if (e.ButtonIndex == 1) {
 					//Photo Library
 					imagePicker.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
+
+					NSNotificationCenter.DefaultCenter.PostNotificationName("ReloadMap", this);
 					this.PresentViewController(imagePicker,true,null);
 				}
 

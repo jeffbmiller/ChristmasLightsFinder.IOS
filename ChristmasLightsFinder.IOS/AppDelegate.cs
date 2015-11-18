@@ -43,7 +43,7 @@ namespace ChristmasLightsFinder.IOS
 
 		public override void WillEnterForeground (UIApplication application)
 		{
-			NSNotificationCenter.DefaultCenter.PostNotificationName("AppOpened", this);
+			NSNotificationCenter.DefaultCenter.PostNotificationName("ReloadMap", this);
 		}
 
 	}

@@ -25,19 +25,11 @@ namespace ChristmasLightsFinder.IOS
 			isAdmin =  NSBundle.MainBundle.ObjectForInfoDictionary("AllowAddNew").ToString() == "1";
 		}
 
-		public override void ViewWillDisappear (bool animated)
-		{
-			base.ViewWillDisappear (animated);
-			if (observer != null)
-				NSNotificationCenter.DefaultCenter.RemoveObserver (observer);
-		}
-
-
 		public async override void ViewDidLoad ()
 		{
 
 			if (observer == null){
-				observer = NSNotificationCenter.DefaultCenter.AddObserver (new NSString ("AppOpened"), (x)=>{
+				observer = NSNotificationCenter.DefaultCenter.AddObserver (new NSString ("ReloadMap"), (x)=>{
 					if (!IsBusy)
 						Reload();
 				});
@@ -48,20 +40,10 @@ namespace ChristmasLightsFinder.IOS
 			}
 			base.ViewDidLoad ();
 			this.mapView.Delegate = new MapDelegate (this);
-//			this.filterBarButton.Clicked += (object sender, EventArgs e) => {
-//
-//				var actionSheet = new UIActionSheet("Filter By",null,"Cancel",null,new string[]{"All", "With Music", "With Animation"});
-//
-//				actionSheet.Dismissed += (object aSheet, UIButtonEventArgs args) => {
-//					if (args.ButtonIndex == actionSheet.CancelButtonIndex)
-//						return;
-//					
-//				};
-//
-//				actionSheet.ShowInView(this.View);
-//			};
 
 			Center ();
+
+			Reload ();
 		}
 
 		private void Center()
@@ -70,15 +52,7 @@ namespace ChristmasLightsFinder.IOS
 			var span = new MKCoordinateSpan(0.1, 0.1);
 			mapView.Region = new MKCoordinateRegion(coords, span);
 		}
-
-		public override async void ViewDidAppear (bool animated)
-		{
-			base.ViewDidAppear (animated);
-
-			Reload ();
-
-		}
-
+			
 		private async void Reload()
 		{
 			try {
@@ -96,10 +70,14 @@ namespace ChristmasLightsFinder.IOS
 				//Update Annotation from Server
 				foreach (var house in houses) {
 					var existingAnnotation = existing.FirstOrDefault (x => x.House.ObjectId == house.ObjectId);
-					if (existingAnnotation != null && existingAnnotation.House.Likes != house.Likes){
-						this.mapView.RemoveAnnotation(existingAnnotation);
-						var annotation = new HouseMapAnnotation (new CLLocationCoordinate2D(house.Latitude,house.Longitude), house.Address, house);
-						this.mapView.AddAnnotation(annotation);
+					if (existingAnnotation != null) 
+					{
+						if (existingAnnotation.House.Likes != house.Likes)
+						{
+							this.mapView.RemoveAnnotation(existingAnnotation);
+							var annotation = new HouseMapAnnotation (new CLLocationCoordinate2D(house.Latitude,house.Longitude), house.Address, house);
+							this.mapView.AddAnnotation(annotation);
+						}
 					}
 					else{
 
@@ -111,7 +89,7 @@ namespace ChristmasLightsFinder.IOS
 
 			}
 			catch(Exception e) {
-				Console.WriteLine ("Error communicating with server. {0}",e.Message);
+				BigTed.BTProgressHUD.ShowErrorWithStatus ("Error Communication With Server");
 			}
 			finally{
 				UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
@@ -129,13 +107,27 @@ namespace ChristmasLightsFinder.IOS
 				locationManager.DistanceFilter = 500f;
 			}
 
-			locationManager.RequestWhenInUseAuthorization();
-			mapView.ShowsUserLocation = true;
+			if (CLLocationManager.Status != CLAuthorizationStatus.AuthorizedWhenInUse){
 
-//			if (mapView.UserLocation.Location == null)
-//				new UIAlertView("Turn On Location Services For \"Christmas Lights Finder\" To Determine Your Locaiton.","Go to Settings -> Location Services -> Christmas Lights Finder to turn on.",null,"Close",null).Show();
+				new UIAlertView("Turn On Location Services For \"Christmas Lights Finder\" To Determine Your Locaiton.","Go to Settings -> Location Services -> Christmas Lights Finder to turn on.",null,"Close",null).Show();
+			}
+			else {
 
+				if (mapView.ShowsUserLocation == true)
+					mapView.ShowsUserLocation = false;
+				else 
+				{
+					locationManager.RequestWhenInUseAuthorization();
+					mapView.ShowsUserLocation = true;
+				}
+			}
+		}
 
+		protected override void Dispose (bool disposing)
+		{
+			base.Dispose (disposing);
+			if (observer != null)
+				NSNotificationCenter.DefaultCenter.RemoveObserver (observer);
 		}
 
 		protected class MapDelegate : MKMapViewDelegate
