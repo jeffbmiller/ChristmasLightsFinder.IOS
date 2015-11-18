@@ -15,15 +15,19 @@ namespace ChristmasLightsFinder.IOS
 		CLLocationManager locationManager;
 
 		private readonly HouseService houseService;
+		private readonly HouseImageCacheRepository imageCacheRepo;
 		private bool isAdmin;
 		private NSObject observer;
 		public MapViewController (IntPtr handle) : base (handle)
 		{
 			houseService = new HouseService ();
+			imageCacheRepo = new HouseImageCacheRepository ();
 
 			this.NavigationItem.BackBarButtonItem = new UIBarButtonItem ("Back", UIBarButtonItemStyle.Plain,null);
 			isAdmin =  NSBundle.MainBundle.ObjectForInfoDictionary("AllowAddNew").ToString() == "1";
 		}
+
+		public HouseImageCacheRepository ImageCacheRepo { get { return imageCacheRepo; } }
 
 		public async override void ViewDidLoad ()
 		{
@@ -202,10 +206,35 @@ namespace ChristmasLightsFinder.IOS
 			{
 				try {
 					if (house.Thumbnail == null) return;
-					var byteArray = await new HttpClient ().GetByteArrayAsync (house.Thumbnail.Url);
 
-					var image = UIImage.LoadFromData (NSData.FromArray (byteArray));
-					annotationView.LeftCalloutAccessoryView = new UIImageView(image);
+					UIImage thumbnail;
+
+					//Check Cache First
+					var houseImageCache = await parent.imageCacheRepo.GetHouseImagesFor(house.ObjectId);
+					if (houseImageCache == null)
+					{
+						//If Not in Cache set cache;
+						var byteArray = await new HttpClient ().GetByteArrayAsync (house.Thumbnail.Url);
+						parent.imageCacheRepo.SaveHouseImages(new HouseImages(){ObjectId = house.ObjectId, Thumbnail= byteArray});
+						thumbnail = UIImage.LoadFromData (NSData.FromArray (byteArray));
+
+					}
+					else
+					{
+						if (houseImageCache.Thumbnail != null)
+						{
+							thumbnail = UIImage.LoadFromData (NSData.FromArray (houseImageCache.Thumbnail));
+
+						}
+						else {
+							var byteArray = await new HttpClient ().GetByteArrayAsync (house.Thumbnail.Url);
+							houseImageCache.Thumbnail = byteArray;
+							await parent.imageCacheRepo.UpdateHouseImages(houseImageCache);
+							thumbnail = UIImage.LoadFromData (NSData.FromArray (byteArray));
+
+						}
+					}
+					annotationView.LeftCalloutAccessoryView = new UIImageView(thumbnail);
 
 				} catch (Exception e) {
 					Console.WriteLine ("Error Retrieving Image. {0}", e.Message);

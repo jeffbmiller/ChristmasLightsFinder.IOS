@@ -76,6 +76,9 @@
     <Reference Include="BTProgressHUD">
       <HintPath>..\Components\btprogresshud-1.18\lib\ios-unified\BTProgressHUD.dll</HintPath>
     </Reference>
+    <Reference Include="SQLite">
+      <HintPath>..\Components\sqlite-net-1.0.8.3\lib\ios-unified\SQLite.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -110,6 +113,8 @@
     <Compile Include="CustomControls\LightMapPointStyleKit.cs" />
     <Compile Include="CustomControls\RandomColorHelper.cs" />
     <Compile Include="MapHelper.cs" />
+    <Compile Include="Models\HouseImages.cs" />
+    <Compile Include="HouseImageCacheRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -127,6 +132,10 @@
   <ItemGroup>
     <XamarinComponentReference Include="btprogresshud">
       <Version>1.18</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="sqlite-net">
+      <Version>1.0.8.3</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

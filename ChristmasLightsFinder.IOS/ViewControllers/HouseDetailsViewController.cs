@@ -15,6 +15,8 @@ namespace ChristmasLightsFinder.IOS
 	{
 		private List<string> housesLiked;
 		private string housesLikeFilename;
+		private readonly HouseImageCacheRepository imageCacheRepo;
+
 		public HouseDetailsViewController (IntPtr handle) : base (handle)
 		{
 			var documents = Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
@@ -25,6 +27,7 @@ namespace ChristmasLightsFinder.IOS
 			else
 				housesLiked = new List<string>();
 
+			imageCacheRepo = new HouseImageCacheRepository ();
 		}
 
 		public HouseMapAnnotation Annotation {get;set;}
@@ -43,9 +46,36 @@ namespace ChristmasLightsFinder.IOS
 				try {
 					this.activityIndicator.Hidden = false;
 					this.activityIndicator.StartAnimating ();
-					var byteArray = await new HttpClient ().GetByteArrayAsync (Annotation.House.Image.Url);
 
-					var image = UIImage.LoadFromData (NSData.FromArray (byteArray));
+
+					UIImage image;
+
+					//Check Cache First
+					var houseImageCache = await imageCacheRepo.GetHouseImagesFor(Annotation.House.ObjectId);
+					if (houseImageCache == null)
+					{
+						//If Not in Cache set cache;
+						var byteArray = await new HttpClient ().GetByteArrayAsync (Annotation.House.Image.Url);
+						await imageCacheRepo.SaveHouseImages(new HouseImages(){ObjectId = Annotation.House.ObjectId, Image= byteArray});
+						image = UIImage.LoadFromData (NSData.FromArray (byteArray));
+
+					}
+					else
+					{
+						if (houseImageCache.Image != null)
+						{
+							image = UIImage.LoadFromData (NSData.FromArray (houseImageCache.Image));
+
+						}
+						else {
+							var byteArray = await new HttpClient ().GetByteArrayAsync (Annotation.House.Image.Url);
+							houseImageCache.Image = byteArray;
+							await imageCacheRepo.UpdateHouseImages(houseImageCache);
+							image = UIImage.LoadFromData (NSData.FromArray (byteArray));
+
+						}
+					}
+
 					this.houseImage.Image = image;
 
 				} catch (Exception e) {
