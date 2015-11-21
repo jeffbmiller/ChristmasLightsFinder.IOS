@@ -151,6 +151,9 @@
     <BundleResource Include="Resources\ic_my_location_white.png" />
     <BundleResource Include="Resources\ic_my_location_white_2x.png" />
     <BundleResource Include="Resources\ic_my_location_white_3x.png" />
+    <BundleResource Include="Resources\Logo.png" />
+    <BundleResource Include="Resources\Logo%402x.png" />
+    <BundleResource Include="Resources\Logo%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="btprogresshud">

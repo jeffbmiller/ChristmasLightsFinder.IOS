@@ -14,7 +14,16 @@
                     <view key="view" contentMode="scaleToFill" id="8">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" customColorSpace="calibratedWhite" colorSpace="calibratedRGB" red="1" green="0" blue="0" alpha="1"/>
+                        <color key="backgroundColor" customColorSpace="calibratedWhite" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="13" translatesAutoresizingMaskIntoConstraints="NO" image="Logo.png">
+                                <rect key="frame" x="288.5" y="287.5" width="23" height="25"/>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="13" firstAttribute="centerX" secondItem="8" secondAttribute="centerX" constant="0.0" id="16"/>
+                            <constraint firstItem="8" firstAttribute="centerY" secondItem="13" secondAttribute="centerY" constant="0.0" id="17"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -22,4 +31,10 @@
             <point key="canvasLocation" x="128" y="-60"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ic_my_location_white.png" width="24" height="24"/>
+        <image name="ic_my_location_white_2x.png" width="48" height="48"/>
+        <image name="ic_my_location_white_3x.png" width="72" height="72"/>
+        <image name="Logo.png" width="23" height="25"/>
+    </resources>
 </document>
