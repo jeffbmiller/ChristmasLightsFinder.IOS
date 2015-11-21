@@ -120,6 +120,7 @@ namespace ChristmasLightsFinder.IOS
 				}
 
 				BigTed.BTProgressHUD.Dismiss();
+				NSNotificationCenter.DefaultCenter.PostNotificationName("ReloadMap", this);
 				this.NavigationController.PopViewController(true);
 			};
 
@@ -163,7 +164,6 @@ namespace ChristmasLightsFinder.IOS
 					//Photo Library
 					imagePicker.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
 
-					NSNotificationCenter.DefaultCenter.PostNotificationName("ReloadMap", this);
 					this.PresentViewController(imagePicker,true,null);
 				}
 
