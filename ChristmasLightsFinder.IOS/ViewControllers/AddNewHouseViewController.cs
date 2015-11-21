@@ -61,6 +61,7 @@ namespace ChristmasLightsFinder.IOS
 					catch (Exception ex)
 					{
 						new UIAlertView("Error", "Unable to determine current location.",null,"OK",null).Show();
+						locationManager.StopUpdatingLocation();
 					}
 				};
 			});
@@ -143,6 +144,10 @@ namespace ChristmasLightsFinder.IOS
 				imagePicker.DismissViewController(true,null);
 			};
 
+			imagePicker.Canceled += (object sender, EventArgs e) => {
+				imagePicker.DismissViewController(true,null);
+			};
+
 			var sourceActionSheet = new UIActionSheet("Select Photo",null,"Cancel",null,new string []{"From Camera", "From Saved Photos"});
 
 			sourceActionSheet.Dismissed += (object actionSheet, UIButtonEventArgs e) => {
@@ -162,6 +167,7 @@ namespace ChristmasLightsFinder.IOS
 				}
 
 			};
+
 
 			sourceActionSheet.ShowInView(this.View);
 
