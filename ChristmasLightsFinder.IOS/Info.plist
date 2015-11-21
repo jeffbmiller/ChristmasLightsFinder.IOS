@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>ChristmasLightsFinder</string>
+	<string>Christmas Lights Finder</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.jeffmiller.christmaslightsfinder</string>
 	<key>CFBundleShortVersionString</key>

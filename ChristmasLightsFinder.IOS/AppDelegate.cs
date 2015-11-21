@@ -25,8 +25,8 @@ namespace ChristmasLightsFinder.IOS
 			UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes {
 				TextColor = UIColor.White
 			});
-//			UIBarButtonItem.Appearance.TintColor = UIColor.White;
-//			UINavigationBar.Appearance.TintColor = UIColor.White;
+			UIBarButtonItem.Appearance.TintColor = UIColor.White;
+			UINavigationBar.Appearance.TintColor = UIColor.White;
 			UIApplication.SharedApplication.SetStatusBarStyle (UIStatusBarStyle.LightContent, false);
 
 			ParseObject.RegisterSubclass<House>();
