@@ -156,6 +156,7 @@ namespace ChristmasLightsFinder.IOS
 				if (e.ButtonIndex == 0){
 					//Camera
 					imagePicker.SourceType = UIImagePickerControllerSourceType.Camera;
+					imagePicker.CameraFlashMode = UIImagePickerControllerCameraFlashMode.Off;
 					this.PresentViewController(imagePicker,true,null);
 				}
 				if (e.ButtonIndex == 1) {
