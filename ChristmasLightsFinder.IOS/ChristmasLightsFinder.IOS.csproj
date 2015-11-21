@@ -82,6 +82,29 @@
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_29%403x Copy.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_29.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_29%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_29%403x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_40%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_40%403x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_57.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_57%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_60%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_60%403x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_40.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_50.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_50%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_ipad_76.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_ipad_76%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_ipad_72.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_ipad_72%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_ipad_50%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_ipad_50.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_ipad_29.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_ipad_29%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_ipad_40.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon_ipad_40%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
