@@ -18,6 +18,8 @@ namespace ChristmasLightsFinder.IOS
 		private readonly HouseImageCacheRepository imageCacheRepo;
 		private bool isAdmin;
 		private NSObject observer;
+		private bool shouldCenterOnLocation;
+
 		public MapViewController (IntPtr handle) : base (handle)
 		{
 			houseService = new HouseService ();
@@ -127,6 +129,8 @@ namespace ChristmasLightsFinder.IOS
 					mapView.ShowsUserLocation = false;
 				else 
 				{
+					locationManager.RequestWhenInUseAuthorization();
+					shouldCenterOnLocation = true;
 					mapView.ShowsUserLocation = true;
 				}
 			}
@@ -149,13 +153,14 @@ namespace ChristmasLightsFinder.IOS
 			{
 				this.parent = parent;
 			}
-
+				
 			public override void DidUpdateUserLocation (MKMapView mapView, MKUserLocation userLocation)
 			{
-				if (mapView.UserLocation != null) {
+				if (mapView.UserLocation != null && parent.shouldCenterOnLocation) {
 					CLLocationCoordinate2D coords = mapView.UserLocation.Coordinate;
 					MKCoordinateSpan span = new MKCoordinateSpan(MapHelper.MilesToLatitudeDegrees(0.2), MapHelper.MilesToLongitudeDegrees(0.2, coords.Latitude));
 					mapView.Region = new MKCoordinateRegion(coords, span);
+					parent.shouldCenterOnLocation = false;
 				}
 			}
 
