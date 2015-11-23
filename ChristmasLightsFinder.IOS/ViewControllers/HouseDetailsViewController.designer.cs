@@ -28,6 +28,10 @@ namespace ChristmasLightsFinder.IOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel dateAddedLabel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIImageView houseImage { get; set; }
 
 		[Outlet]
@@ -55,6 +59,10 @@ namespace ChristmasLightsFinder.IOS
 			if (cityProvLabel != null) {
 				cityProvLabel.Dispose ();
 				cityProvLabel = null;
+			}
+			if (dateAddedLabel != null) {
+				dateAddedLabel.Dispose ();
+				dateAddedLabel = null;
 			}
 			if (houseImage != null) {
 				houseImage.Dispose ();
