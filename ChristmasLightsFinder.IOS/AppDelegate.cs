@@ -2,6 +2,7 @@
 using UIKit;
 using Parse;
 using System;
+using Xamarin;
 
 namespace ChristmasLightsFinder.IOS
 {
@@ -19,6 +20,11 @@ namespace ChristmasLightsFinder.IOS
 
 		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
+			#if DEBUG
+			Insights.Initialize(Insights.DebugModeKey);
+			#else
+			Insights.Initialize("7fb2de5e612b5ddda616a9ed6a87022039c84805");
+			#endif
 			// create a new window instance based on the screen size
 			Window = new UIWindow (UIScreen.MainScreen.Bounds);
 

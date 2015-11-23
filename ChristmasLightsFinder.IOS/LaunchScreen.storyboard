@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" customColorSpace="calibratedWhite" colorSpace="calibratedWhite" white="1" alpha="1"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="35" translatesAutoresizingMaskIntoConstraints="NO" image="Logo.png">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" id="35" translatesAutoresizingMaskIntoConstraints="NO" image="Logo.png">
                                 <rect key="frame" x="240" y="240" width="120" height="120"/>
                             </imageView>
                         </subviews>

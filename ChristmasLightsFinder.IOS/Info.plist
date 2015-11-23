@@ -33,7 +33,7 @@
 	<key>UIMainStoryboardFile</key>
 	<string>MainStoryboard</string>
 	<key>AllowAddNew</key>
-	<true/>
+	<false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Used to display current location within the Christmas Lights Finder app</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>

@@ -20,4 +20,7 @@ Global
 		{01A16653-26B4-4E7E-BB68-8806F2BFA6EC}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{01A16653-26B4-4E7E-BB68-8806F2BFA6EC}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		version = 1.0
+	EndGlobalSection
 EndGlobal
