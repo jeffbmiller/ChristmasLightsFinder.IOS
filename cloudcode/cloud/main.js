@@ -84,7 +84,7 @@ Parse.Cloud.beforeSave("House", function (request, response) {
                         response.error(error);
                     });
                 }
-                else{
+                else {
                     response.success();
                 }
 
@@ -95,4 +95,28 @@ Parse.Cloud.beforeSave("House", function (request, response) {
             response.success();
         }
     });
+});
+
+Parse.Cloud.afterSave("House", function (request) {
+
+    if (request.object.existed() == false) {
+        //Send Push Notificaiton
+        Parse.Push.send({
+            channels: ["Everyone"],
+            data: {
+                alert: "New House Added\n" + request.object.get("address") + "\n" + request.object.get("city") + ", " + request.object.get("province"),
+                sound: "default"
+            }
+        }, {
+            success: function () {
+                // Push was successful
+            },
+            error: function (error) {
+                console.error("Error sending new house added push notification");
+            }
+        });
+    }
+    else {
+        return;
+    }
 });
