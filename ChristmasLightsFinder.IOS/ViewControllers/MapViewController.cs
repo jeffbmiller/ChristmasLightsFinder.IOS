@@ -19,12 +19,13 @@ namespace ChristmasLightsFinder.IOS
 		private bool isAdmin;
 		private NSObject observer;
 		private bool shouldCenterOnLocation;
+		private MapFilter mapFilter;
 
 		public MapViewController (IntPtr handle) : base (handle)
 		{
 			houseService = new HouseService ();
 			imageCacheRepo = new HouseImageCacheRepository ();
-
+			this.mapFilter = MapFilter.All;
 			this.NavigationItem.BackBarButtonItem = new UIBarButtonItem ("Back", UIBarButtonItemStyle.Plain,null);
 			isAdmin =  NSBundle.MainBundle.ObjectForInfoDictionary("AllowAddNew").ToString() == "1";
 		}
@@ -63,11 +64,11 @@ namespace ChristmasLightsFinder.IOS
 		{
 			try {
 				UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
-				var houses = await houseService.GetHousesAsync ();
+				var houses = await houseService.GetHousesAsync (mapFilter);
 
 				var existing = this.mapView.Annotations.OfType<HouseMapAnnotation>().ToList ();
 
-				//If Deleted from Server remove from map
+//				//If Deleted from Server or filtered remove from map
 				foreach (var annotation in existing) {
 					if (!houses.Any(x=>x.ObjectId == annotation.House.ObjectId))
 						this.mapView.RemoveAnnotation(annotation);
@@ -134,6 +135,20 @@ namespace ChristmasLightsFinder.IOS
 					mapView.ShowsUserLocation = true;
 				}
 			}
+		}
+
+		partial void FilterMapButton_Activated (UIBarButtonItem sender)
+		{
+			var selections = Enum.GetValues(typeof(MapFilter)).Cast<MapFilter>().Select(x=>x.Description()).ToList();
+			var actionSheet = new UIActionSheet("Filter Map",null,"Cancel",null,selections.ToArray());
+			actionSheet.ShowInView(this.View);
+
+			actionSheet.Dismissed += (object s, UIButtonEventArgs e) => {
+				if (actionSheet.CancelButtonIndex != e.ButtonIndex){
+					mapFilter = selections.ElementAt((int)e.ButtonIndex).FromDescription<MapFilter>();
+					Reload();
+				}
+			};
 		}
 
 		protected override void Dispose (bool disposing)
