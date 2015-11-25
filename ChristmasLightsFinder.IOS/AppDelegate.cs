@@ -25,6 +25,7 @@ namespace ChristmasLightsFinder.IOS
 			#else
 			Insights.Initialize("7fb2de5e612b5ddda616a9ed6a87022039c84805");
 			#endif
+
 			// create a new window instance based on the screen size
 			Window = new UIWindow (UIScreen.MainScreen.Bounds);
 
@@ -38,6 +39,21 @@ namespace ChristmasLightsFinder.IOS
 			ParseObject.RegisterSubclass<House>();
 			ParseClient.Initialize("Sv0daWT1jgQ4pdSFvgbqkThjXRtZlFhUW47LMGqx", "LN6CeKOoC0SZtKmyHVizMGyzl80suzV7dgWkYsdw");
 
+			// Register for Push Notitications
+			UIUserNotificationType notificationTypes = (UIUserNotificationType.Alert |
+				UIUserNotificationType.Badge |
+				UIUserNotificationType.Sound);
+			var settings = UIUserNotificationSettings.GetSettingsForTypes(notificationTypes,
+				new NSSet(new string[] { }));
+			UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+			UIApplication.SharedApplication.RegisterForRemoteNotifications();
+
+			// Handle Push Notifications
+			ParsePush.ParsePushNotificationReceived += (object sender, ParsePushNotificationEventArgs args) => {
+				// Process Push Notification payload here.
+				Console.WriteLine("Push Received");
+			};
+
 			// If you have defined a root view controller, set it here:
 			Window.RootViewController = UIStoryboard.FromName ("MainStoryboard", null).InstantiateInitialViewController();
 
@@ -50,6 +66,23 @@ namespace ChristmasLightsFinder.IOS
 		public override void WillEnterForeground (UIApplication application)
 		{
 			NSNotificationCenter.DefaultCenter.PostNotificationName("ReloadMap", this);
+		}
+
+
+		public override void DidRegisterUserNotificationSettings(UIApplication application, UIUserNotificationSettings notificationSettings) {
+			application.RegisterForRemoteNotifications();
+		}
+
+		public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken) {
+			ParseInstallation installation = ParseInstallation.CurrentInstallation;
+			installation.SetDeviceTokenFromData(deviceToken);
+
+			installation.SaveAsync();
+		}
+
+		public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo) {
+			// We need this to fire userInfo into ParsePushNotificationReceived.
+			ParsePush.HandlePush(userInfo);
 		}
 
 	}
