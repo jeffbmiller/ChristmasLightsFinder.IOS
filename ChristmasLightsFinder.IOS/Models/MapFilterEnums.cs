@@ -5,7 +5,7 @@ namespace ChristmasLightsFinder.IOS
 {
 	public enum MapFilter
 	{
-		[Description("All")]
+		[Description("Show All")]
 		All,
 		[Description("Top 5 - Most Likes")]
 		Top5,

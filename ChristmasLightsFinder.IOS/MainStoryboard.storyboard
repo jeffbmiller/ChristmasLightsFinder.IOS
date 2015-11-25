@@ -331,6 +331,6 @@
         <image name="ic_my_location_white_2x.png" width="48" height="48"/>
         <image name="ic_my_location_white_3x.png" width="72" height="72"/>
         <image name="Logo.png" width="120" height="120"/>
-        <image name="Filter_Icon.png" width="22" height="22"/>
+        <image name="Filter_Icon.png" width="24" height="20"/>
     </resources>
 </document>
