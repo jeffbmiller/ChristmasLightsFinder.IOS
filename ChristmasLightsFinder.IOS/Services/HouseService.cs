@@ -11,17 +11,19 @@ namespace ChristmasLightsFinder.IOS
 		public async Task<IEnumerable<House>> GetHousesAsync(MapFilter mapFilter)
 		{
 			var query = new ParseQuery<House>();
-			var results = await  query.FindAsync ();
+
 
 			if (mapFilter == MapFilter.RecentlyAdded) {
-				return results.Where(x=>x.CreatedAt >= DateTime.Today.AddDays(-3));
+				query = query.WhereGreaterThanOrEqualTo("createdAt",DateTime.Today.AddDays(-3));
 			}
 			else if (mapFilter == MapFilter.Top5) {
-				return results.OrderByDescending(x=>x.Likes).Take(5);
+				query = query.OrderByDescending("likes").Limit(5);
 			}
-			else{
-				return results;
-			}
+
+
+			var results = await  query.FindAsync ();
+
+			return results;
 		}
 	}
 }
