@@ -97,31 +97,31 @@ Parse.Cloud.beforeSave("House", function (request, response) {
     });
 });
 
-Parse.Cloud.afterSave("House", function (request) {
-
-    if (request.object.existed() == false) {
-        //Send Push Notificaiton
-
-        // Notification for iOS users
-        var queryIOS = new Parse.Query(Parse.Installation);
-        queryIOS.equalTo('deviceType', 'ios');
-
-        Parse.Push.send({
-            where: queryIOS,
-            data: {
-                alert: "New House Added\n" + request.object.get("address") + "\n" + request.object.get("city") + ", " + request.object.get("province"),
-                sound: "default"
-            }
-        }, {
-            success: function () {
-                // Push was successful
-            },
-            error: function (error) {
-                console.error("Error sending new house added push notification");
-            }
-        });
-    }
-    else {
-        return;
-    }
-});
+//Parse.Cloud.afterSave("House", function (request) {
+//
+//    if (!request.object.existed()) {
+//        //Send Push Notificaiton
+//
+//        // Notification for iOS users
+//        var queryIOS = new Parse.Query(Parse.Installation);
+//        queryIOS.equalTo('deviceType', 'ios');
+//
+//        Parse.Push.send({
+//            where: queryIOS,
+//            data: {
+//                alert: "New House Added\n" + request.object.get("address") + "\n" + request.object.get("city") + ", " + request.object.get("province"),
+//                sound: "default"
+//            }
+//        }, {
+//            success: function () {
+//                // Push was successful
+//            },
+//            error: function (error) {
+//                console.error("Error sending new house added push notification");
+//            }
+//        });
+//    }
+//    else {
+//        return;
+//    }
+//});
