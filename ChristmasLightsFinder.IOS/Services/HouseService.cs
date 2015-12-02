@@ -16,8 +16,8 @@ namespace ChristmasLightsFinder.IOS
 			if (mapFilter == MapFilter.RecentlyAdded) {
 				query = query.WhereGreaterThanOrEqualTo("createdAt",DateTime.Today.AddDays(-3));
 			}
-			else if (mapFilter == MapFilter.Top5) {
-				query = query.OrderByDescending("likes").Limit(5);
+			else if (mapFilter == MapFilter.Top10) {
+				query = query.OrderByDescending("likes").Limit(10);
 			}
 
 
