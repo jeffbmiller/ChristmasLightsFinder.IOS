@@ -131,7 +131,7 @@ namespace ChristmasLightsFinder.IOS
 
 		private void BindData()
 		{
-			this.dateAddedLabel.Text = Annotation.House.CreatedAt.Value.ToShortDateString ();
+			this.dateAddedLabel.Text = string.Format("Added: {0}", Annotation.House.CreatedAt.Value.ToLocalTime().ToShortDateString ());
 			this.addressLabel.Text = Annotation.House.Address;
 			this.cityProvLabel.Text = string.Format ("{0}, {1}", Annotation.House.City, Annotation.House.Province);
 			this.likesLabel.Text = string.Format ("({0}) Likes", Annotation.House.Likes);
