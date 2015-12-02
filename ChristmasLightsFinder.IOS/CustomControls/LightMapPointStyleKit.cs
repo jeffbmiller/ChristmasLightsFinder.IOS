@@ -30,7 +30,7 @@ namespace ChristmasLightsFinder.IOS
 
         //// Drawing Methods
 
-        public static void DrawLightMapPoint(float lightColorR, float lightColorG, float lightColorB, float lightColorA, string rank)
+        public static void DrawLightMapPoint(float lightColorR, float lightColorG, float lightColorB, float lightColorA, string rank, float fontSize)
         {
             //// General Declarations
             var context = UIGraphics.GetCurrentContext();
@@ -105,25 +105,25 @@ namespace ChristmasLightsFinder.IOS
 
 
             //// Text Drawing
-            CGRect textRect = new CGRect(3.0f, 8.0f, 14.0f, 23.0f);
+            CGRect textRect = new CGRect(0.0f, 8.0f, 20.0f, 23.0f);
             UIColor.White.SetFill();
             var textStyle = new NSMutableParagraphStyle ();
             textStyle.Alignment = UITextAlignment.Center;
 
-            var textFontAttributes = new UIStringAttributes () {Font = UIFont.SystemFontOfSize(UIFont.SmallSystemFontSize), ForegroundColor = UIColor.White, ParagraphStyle = textStyle};
+            var textFontAttributes = new UIStringAttributes () {Font = UIFont.SystemFontOfSize(fontSize), ForegroundColor = UIColor.White, ParagraphStyle = textStyle};
             var textTextHeight = new NSString(rank).GetBoundingRect(new CGSize(textRect.Width, nfloat.MaxValue), NSStringDrawingOptions.UsesLineFragmentOrigin, textFontAttributes, null).Height;
             context.SaveState();
             context.ClipToRect(textRect);
-            new NSString(rank).DrawString(new CGRect(textRect.GetMinX(), textRect.GetMinY() + (textRect.Height - textTextHeight) / 2.0f, textRect.Width, textTextHeight), UIFont.SystemFontOfSize(UIFont.SmallSystemFontSize), UILineBreakMode.WordWrap, UITextAlignment.Center);
+            new NSString(rank).DrawString(new CGRect(textRect.GetMinX(), textRect.GetMinY() + (textRect.Height - textTextHeight) / 2.0f, textRect.Width, textTextHeight), UIFont.SystemFontOfSize(fontSize), UILineBreakMode.WordWrap, UITextAlignment.Center);
             context.RestoreState();
         }
 
         //// Generated Images
 
-        public static UIImage ImageOfLightMapPoint(float lightColorR, float lightColorG, float lightColorB, float lightColorA, string rank)
+        public static UIImage ImageOfLightMapPoint(float lightColorR, float lightColorG, float lightColorB, float lightColorA, string rank, float fontSize)
         {
             UIGraphics.BeginImageContextWithOptions(new CGSize(20.0f, 47.0f), false, 0);
-                        LightMapPointStyleKit.DrawLightMapPoint(lightColorR, lightColorG, lightColorB, lightColorA, rank);
+                        LightMapPointStyleKit.DrawLightMapPoint(lightColorR, lightColorG, lightColorB, lightColorA, rank, fontSize);
 
             var imageOfLightMapPoint = UIGraphics.GetImageFromCurrentImageContext();
             UIGraphics.EndImageContext();

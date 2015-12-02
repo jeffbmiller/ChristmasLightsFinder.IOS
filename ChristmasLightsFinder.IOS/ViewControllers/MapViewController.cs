@@ -40,7 +40,7 @@ namespace ChristmasLightsFinder.IOS
 			var rank = 1;
 			foreach (var group in grouping.OrderByDescending(x=>x.Key)) {
 				if (group.Contains (house))
-					return rank.ToString ();
+					return group.Count() > 1 ? string.Format("T{0}",rank.ToString()) : rank.ToString ();
 				rank++;
 			}
 
@@ -55,7 +55,7 @@ namespace ChristmasLightsFinder.IOS
 			if (observer == null){
 				observer = NSNotificationCenter.DefaultCenter.AddObserver (new NSString ("ReloadMap"), (x)=>{
 					if (!IsBusy)
-						Reload();
+						Reload(true);
 				});
 			}
 			// If Not Admin Remove Add button
@@ -67,7 +67,14 @@ namespace ChristmasLightsFinder.IOS
 
 			Center ();
 
-			Reload ();
+			Reload (true);
+		}
+
+		public override void ViewDidAppear (bool animated)
+		{
+			base.ViewDidAppear (animated);
+			if (!IsBusy)
+				Reload (false);
 		}
 
 		private void Center()
@@ -77,12 +84,15 @@ namespace ChristmasLightsFinder.IOS
 			mapView.Region = new MKCoordinateRegion(coords, span);
 		}
 			
-		private async void Reload()
+		private async void Reload(bool redownload)
 		{
 			try {
-				UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
-				var results = await houseService.GetHousesAsync (mapFilter);
-				houses = results.ToList();
+				if (redownload)
+				{
+					UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
+					var results = await houseService.GetHousesAsync (mapFilter);
+					houses = results.ToList();
+				}
 				var existing = this.mapView.Annotations.OfType<HouseMapAnnotation>().ToList ();
 
 //				//If Deleted from Server or filtered remove from map
@@ -94,18 +104,20 @@ namespace ChristmasLightsFinder.IOS
 				//Update Annotation from Server
 				foreach (var house in houses) {
 					var existingAnnotation = existing.FirstOrDefault (x => x.House.ObjectId == house.ObjectId);
+					var rank = GetRankForHouse(house);
 					if (existingAnnotation != null) 
 					{
-						if (existingAnnotation.House.UpdatedAt < house.UpdatedAt)
+						
+						if (existingAnnotation.House.UpdatedAt < house.UpdatedAt ||  existingAnnotation.Rank != rank)
 						{
 							this.mapView.RemoveAnnotation(existingAnnotation);
-							var annotation = new HouseMapAnnotation (new CLLocationCoordinate2D(house.Latitude,house.Longitude), house.Address, house);
+							var annotation = new HouseMapAnnotation (new CLLocationCoordinate2D(house.Latitude,house.Longitude), house.Address, house, rank);
 							this.mapView.AddAnnotation(annotation);
 						}
 					}
 					else{
 
-						var annotation = new HouseMapAnnotation (new CLLocationCoordinate2D(house.Latitude,house.Longitude), house.Address, house);
+						var annotation = new HouseMapAnnotation (new CLLocationCoordinate2D(house.Latitude,house.Longitude), house.Address, house, rank);
 
 						this.mapView.AddAnnotation (annotation);
 					}
@@ -163,7 +175,7 @@ namespace ChristmasLightsFinder.IOS
 			actionSheet.Dismissed += (object s, UIButtonEventArgs e) => {
 				if (actionSheet.CancelButtonIndex != e.ButtonIndex){
 					mapFilter = selections.ElementAt((int)e.ButtonIndex).FromDescription<MapFilter>();
-					Reload();
+					Reload(true);
 				}
 			};
 		}
@@ -223,7 +235,11 @@ namespace ChristmasLightsFinder.IOS
 				nfloat b;
 				nfloat a;
 				RandomColorHelper.GetRandomColor().GetRGBA(out r, out g, out b, out a);
-				annotationView.Image = LightMapPointStyleKit.ImageOfLightMapPoint ((float)r,(float)g,(float)b,(float)a,parent.GetRankForHouse((annotation as HouseMapAnnotation).House));
+				var rank = parent.GetRankForHouse ((annotation as HouseMapAnnotation).House);
+		
+				var fontSize = rank.Length >= 3 ? 9 : 15;
+
+				annotationView.Image = LightMapPointStyleKit.ImageOfLightMapPoint ((float)r,(float)g,(float)b,(float)a,rank, fontSize);
 				annotationView.Selected = true;
 
 				// you can add an accessory view, in this case, we'll add a button on the right, and an image on the left
