@@ -7,6 +7,7 @@ using CoreLocation;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http;
+using System.Collections.Generic;
 
 namespace ChristmasLightsFinder.IOS
 {
@@ -21,6 +22,8 @@ namespace ChristmasLightsFinder.IOS
 		private bool shouldCenterOnLocation;
 		private MapFilter mapFilter;
 
+		private List<House> houses;
+
 		public MapViewController (IntPtr handle) : base (handle)
 		{
 			houseService = new HouseService ();
@@ -28,6 +31,20 @@ namespace ChristmasLightsFinder.IOS
 			this.mapFilter = MapFilter.All;
 			this.NavigationItem.BackBarButtonItem = new UIBarButtonItem ("Back", UIBarButtonItemStyle.Plain,null);
 			isAdmin =  NSBundle.MainBundle.ObjectForInfoDictionary("AllowAddNew").ToString() == "1";
+		}
+
+		public string GetRankForHouse(House house)
+		{
+			var grouping = houses.GroupBy (x => x.Likes).ToList();
+
+			var rank = 1;
+			foreach (var group in grouping.OrderByDescending(x=>x.Key)) {
+				if (group.Contains (house))
+					return rank.ToString ();
+				rank++;
+			}
+
+			return null;
 		}
 
 		public HouseImageCacheRepository ImageCacheRepo { get { return imageCacheRepo; } }
@@ -64,8 +81,8 @@ namespace ChristmasLightsFinder.IOS
 		{
 			try {
 				UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
-				var houses = await houseService.GetHousesAsync (mapFilter);
-
+				var results = await houseService.GetHousesAsync (mapFilter);
+				houses = results.ToList();
 				var existing = this.mapView.Annotations.OfType<HouseMapAnnotation>().ToList ();
 
 //				//If Deleted from Server or filtered remove from map
@@ -79,7 +96,7 @@ namespace ChristmasLightsFinder.IOS
 					var existingAnnotation = existing.FirstOrDefault (x => x.House.ObjectId == house.ObjectId);
 					if (existingAnnotation != null) 
 					{
-						if (existingAnnotation.House.Likes != house.Likes)
+						if (existingAnnotation.House.UpdatedAt < house.UpdatedAt)
 						{
 							this.mapView.RemoveAnnotation(existingAnnotation);
 							var annotation = new HouseMapAnnotation (new CLLocationCoordinate2D(house.Latitude,house.Longitude), house.Address, house);
@@ -206,7 +223,7 @@ namespace ChristmasLightsFinder.IOS
 				nfloat b;
 				nfloat a;
 				RandomColorHelper.GetRandomColor().GetRGBA(out r, out g, out b, out a);
-				annotationView.Image = LightMapPointStyleKit.ImageOfLightMapPoint ((float)r,(float)g,(float)b,(float)a);
+				annotationView.Image = LightMapPointStyleKit.ImageOfLightMapPoint ((float)r,(float)g,(float)b,(float)a,parent.GetRankForHouse((annotation as HouseMapAnnotation).House));
 				annotationView.Selected = true;
 
 				// you can add an accessory view, in this case, we'll add a button on the right, and an image on the left

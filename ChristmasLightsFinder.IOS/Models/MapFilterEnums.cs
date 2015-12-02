@@ -7,8 +7,8 @@ namespace ChristmasLightsFinder.IOS
 	{
 		[Description("Show All")]
 		All,
-		[Description("Top 10 - Most Likes")]
-		Top10,
+		[Description("Top 3 - Most Likes")]
+		Top3,
 		[Description("Recently Added")]
 		RecentlyAdded
 	}
