@@ -108,7 +108,7 @@ namespace ChristmasLightsFinder.IOS
 					if (existingAnnotation != null) 
 					{
 						
-						if (existingAnnotation.House.UpdatedAt < house.UpdatedAt ||  existingAnnotation.Rank != rank)
+						if (existingAnnotation.House.UpdatedAt < house.UpdatedAt ||  existingAnnotation.Rank != rank || existingAnnotation.House.Likes != house.Likes)
 						{
 							this.mapView.RemoveAnnotation(existingAnnotation);
 							var annotation = new HouseMapAnnotation (new CLLocationCoordinate2D(house.Latitude,house.Longitude), house.Address, house, rank);
