@@ -39,12 +39,12 @@ namespace ChristmasLightsFinder.IOS
 
 			var rank = 1;
 			foreach (var group in grouping.OrderByDescending(x=>x.Key)) {
-				if (group.Contains (house))
+				if (group.Any (x=>x.ObjectId == house.ObjectId))
 					return group.Count() > 1 ? string.Format("T{0}",rank.ToString()) : rank.ToString ();
 				rank++;
 			}
 
-			return null;
+			return rank.ToString();
 		}
 
 		public HouseImageCacheRepository ImageCacheRepo { get { return imageCacheRepo; } }
@@ -235,28 +235,31 @@ namespace ChristmasLightsFinder.IOS
 				nfloat b;
 				nfloat a;
 				RandomColorHelper.GetRandomColor().GetRGBA(out r, out g, out b, out a);
-				var rank = parent.GetRankForHouse ((annotation as HouseMapAnnotation).House);
+
+				if (annotation.GetType () == typeof(HouseMapAnnotation)) {
+					var rank = (annotation as HouseMapAnnotation).Rank;
 		
-				var fontSize = rank.Length >= 3 ? 9 : 15;
+					var fontSize = rank.Length >= 3 ? 9 : 15;
 
-				annotationView.Image = LightMapPointStyleKit.ImageOfLightMapPoint ((float)r,(float)g,(float)b,(float)a,rank, fontSize);
-				annotationView.Selected = true;
+					annotationView.Image = LightMapPointStyleKit.ImageOfLightMapPoint ((float)r, (float)g, (float)b, (float)a, rank, fontSize);
+					annotationView.Selected = true;
 
-				// you can add an accessory view, in this case, we'll add a button on the right, and an image on the left
-				detailButton = UIButton.FromType(UIButtonType.DetailDisclosure);
-				detailButton.TintColor = UIColor.Black;
+					// you can add an accessory view, in this case, we'll add a button on the right, and an image on the left
+					detailButton = UIButton.FromType(UIButtonType.DetailDisclosure);
+					detailButton.TintColor = UIColor.Black;
 
-				detailButton.TouchUpInside += (s, e) => { 
-					Console.WriteLine ("Clicked");
-					var detailViewController = UIStoryboard.FromName ("MainStoryboard", null).InstantiateViewController("HouseDetailsViewController") as HouseDetailsViewController;
-					detailViewController.Annotation = annotation as HouseMapAnnotation;
-					mapView.DeselectAnnotation(annotation,true);
-					this.parent.NavigationController.PushViewController(detailViewController,true);
-				};
-				annotationView.RightCalloutAccessoryView = detailButton;
+					detailButton.TouchUpInside += (s, e) => { 
+						Console.WriteLine ("Clicked");
+						var detailViewController = UIStoryboard.FromName ("MainStoryboard", null).InstantiateViewController("HouseDetailsViewController") as HouseDetailsViewController;
+						detailViewController.Annotation = annotation as HouseMapAnnotation;
+						mapView.DeselectAnnotation(annotation,true);
+						this.parent.NavigationController.PushViewController(detailViewController,true);
+					};
+					annotationView.RightCalloutAccessoryView = detailButton;
 
-				if (annotation.GetType () == typeof(HouseMapAnnotation))
 					FetchImageAsync(annotationView,(annotation as HouseMapAnnotation).House);
+				}
+
 				return annotationView;
 			}
 
