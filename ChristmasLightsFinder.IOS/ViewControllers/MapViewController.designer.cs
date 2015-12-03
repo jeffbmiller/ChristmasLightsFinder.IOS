@@ -20,19 +20,11 @@ namespace ChristmasLightsFinder.IOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIBarButtonItem filterMapButton { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		MapKit.MKMapView mapView { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIBarButtonItem trackCurrentLocationBtn { get; set; }
-
-		[Action ("FilterMapButton_Activated:")]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void FilterMapButton_Activated (UIBarButtonItem sender);
 
 		[Action ("trackCurrentLocationBtn_Activated:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -43,10 +35,6 @@ namespace ChristmasLightsFinder.IOS
 			if (addNewBarButton != null) {
 				addNewBarButton.Dispose ();
 				addNewBarButton = null;
-			}
-			if (filterMapButton != null) {
-				filterMapButton.Dispose ();
-				filterMapButton = null;
 			}
 			if (mapView != null) {
 				mapView.Dispose ();

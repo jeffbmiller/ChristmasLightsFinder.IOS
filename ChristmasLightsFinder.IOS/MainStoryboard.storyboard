@@ -41,12 +41,6 @@
                                             <action selector="trackCurrentLocationBtn_Activated:" destination="5" id="638"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="702"/>
-                                    <barButtonItem id="701" image="Filter_Icon.png">
-                                        <connections>
-                                            <action selector="FilterMapButton_Activated:" destination="5" id="705"/>
-                                        </connections>
-                                    </barButtonItem>
                                 </items>
                                 <color key="barTintColor" colorSpace="calibratedRGB" red="1" green="0" blue="0" alpha="1"/>
                             </toolbar>
@@ -63,7 +57,6 @@
                         <outlet property="mapView" destination="14" id="name-outlet-14"/>
                         <outlet property="addNewBarButton" destination="24" id="name-outlet-24"/>
                         <outlet property="trackCurrentLocationBtn" destination="637" id="name-outlet-637"/>
-                        <outlet property="filterMapButton" destination="701" id="name-outlet-701"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="11" userLabel="First Responder" sceneMemberID="firstResponder"/>

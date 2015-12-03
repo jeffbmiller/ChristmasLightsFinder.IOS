@@ -166,19 +166,19 @@ namespace ChristmasLightsFinder.IOS
 			}
 		}
 
-		partial void FilterMapButton_Activated (UIBarButtonItem sender)
-		{
-			var selections = Enum.GetValues(typeof(MapFilter)).Cast<MapFilter>().Select(x=>x.Description()).ToList();
-			var actionSheet = new UIActionSheet("Filter Map",null,"Cancel",null,selections.ToArray());
-			actionSheet.ShowInView(this.View);
-
-			actionSheet.Dismissed += (object s, UIButtonEventArgs e) => {
-				if (actionSheet.CancelButtonIndex != e.ButtonIndex){
-					mapFilter = selections.ElementAt((int)e.ButtonIndex).FromDescription<MapFilter>();
-					Reload(true);
-				}
-			};
-		}
+//		partial void FilterMapButton_Activated (UIBarButtonItem sender)
+//		{
+//			var selections = Enum.GetValues(typeof(MapFilter)).Cast<MapFilter>().Select(x=>x.Description()).ToList();
+//			var actionSheet = new UIActionSheet("Filter Map",null,"Cancel",null,selections.ToArray());
+//			actionSheet.ShowInView(this.View);
+//
+//			actionSheet.Dismissed += (object s, UIButtonEventArgs e) => {
+//				if (actionSheet.CancelButtonIndex != e.ButtonIndex){
+//					mapFilter = selections.ElementAt((int)e.ButtonIndex).FromDescription<MapFilter>();
+//					Reload(true);
+//				}
+//			};
+//		}
 
 		protected override void Dispose (bool disposing)
 		{

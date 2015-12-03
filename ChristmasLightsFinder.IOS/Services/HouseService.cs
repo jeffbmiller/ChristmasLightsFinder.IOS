@@ -12,11 +12,11 @@ namespace ChristmasLightsFinder.IOS
 		{
 			var query = new ParseQuery<House>();
 
-
-			if (mapFilter == MapFilter.RecentlyAdded) {
-				query = query.WhereGreaterThanOrEqualTo("createdAt",DateTime.Today.AddDays(-3));
-			}
-			else if (mapFilter == MapFilter.Top5) {
+//
+//			if (mapFilter == MapFilter.RecentlyAdded) {
+//				query = query.WhereGreaterThanOrEqualTo("createdAt",DateTime.Today.AddDays(-3));
+//			}
+			if (mapFilter == MapFilter.Top5) {
 				var houses = await  query.FindAsync ();
 				return houses.GroupBy (x => x.Likes).OrderByDescending(x=>x.Key).Take (5).SelectMany (x => x);
 			}
