@@ -31,6 +31,26 @@ namespace ChristmasLightsFinder.IOS
 					// Set a movement threshold for new events.
 					locationManager = new CLLocationManager();
 					locationManager.DistanceFilter = 500f;
+					locationManager.LocationsUpdated += async (object s, CLLocationsUpdatedEventArgs args) =>
+					{
+
+						var geocoder = new CoreLocation.CLGeocoder();
+						try
+						{
+							var result = await geocoder.ReverseGeocodeLocationAsync(new CLLocation(locationManager.Location.Coordinate.Latitude, locationManager.Location.Coordinate.Longitude));
+
+							addressTextField.Text = result[0].AddressDictionary.ValueForKey(ABPersonAddressKey.Street).ToString();
+							cityTextField.Text = result[0].AddressDictionary.ValueForKey(ABPersonAddressKey.City).ToString();
+							provinceTextField.Text = result[0].AddressDictionary.ValueForKey(ABPersonAddressKey.State).ToString();
+							locationManager.StopUpdatingLocation();
+
+						}
+						catch (Exception ex)
+						{
+							new UIAlertView("Error", "Unable to determine current location.", null, "OK", null).Show();
+							locationManager.StopUpdatingLocation();
+						}
+					};
 				}
 
 				if (CLLocationManager.Status == CLAuthorizationStatus.NotDetermined){
@@ -46,24 +66,7 @@ namespace ChristmasLightsFinder.IOS
 				else {
 					locationManager.StartUpdatingLocation();
 				}
-				locationManager.LocationsUpdated += async (object s, CLLocationsUpdatedEventArgs args) => {
-
-					var geocoder = new CoreLocation.CLGeocoder ();
-					try {
-						var result = await geocoder.ReverseGeocodeLocationAsync(new CLLocation(locationManager.Location.Coordinate.Latitude, locationManager.Location.Coordinate.Longitude));
-
-						addressTextField.Text = result[0].AddressDictionary.ValueForKey(ABPersonAddressKey.Street).ToString();
-						cityTextField.Text =  result[0].AddressDictionary.ValueForKey(ABPersonAddressKey.City).ToString();
-						provinceTextField.Text = result[0].AddressDictionary.ValueForKey(ABPersonAddressKey.State).ToString();
-						locationManager.StopUpdatingLocation();
-
-					}
-					catch (Exception ex)
-					{
-						new UIAlertView("Error", "Unable to determine current location.",null,"OK",null).Show();
-						locationManager.StopUpdatingLocation();
-					}
-				};
+				
 			});
 
 			var saveBtn = new UIBarButtonItem (UIBarButtonSystemItem.Save);

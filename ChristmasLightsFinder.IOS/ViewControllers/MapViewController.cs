@@ -95,18 +95,26 @@ namespace ChristmasLightsFinder.IOS
                 var city = data["City"].ToString();
                 var province = data["Province"].ToString();
                 var imagePath = data["ImagePath"].ToString();
+                var longitude = Double.Parse(data["Longitude"].ToString());
+                var latitude = Double.Parse(data["Latitude"].ToString());
 
                 var house = new House()
                 {
                     City = city,
                     Address = address,
                     Province = province,
-                    ImagePath = imagePath
+                    ImagePath = imagePath,
+                    Longitude = longitude,
+                    Latitude = latitude
                 };
 
                 houses.Add(house);
 
-            });
+                var annotation = new HouseMapAnnotation(new CLLocationCoordinate2D(house.Latitude, house.Longitude), house.Address, house,"1");
+
+                this.mapView.AddAnnotation (annotation);
+
+			});
         }
 			
 //		private async void Reload(bool redownload)
