@@ -91,25 +91,8 @@ namespace ChristmasLightsFinder.IOS
             houseRef.ObserveEvent(DataEventType.ChildAdded, (snapshot, prevKey) =>
             {
                 var data = snapshot.GetValue<NSDictionary>();
-                var address = data["Address"].ToString();
-                var city = data["City"].ToString();
-                var province = data["Province"].ToString();
-                var imagePath = data["ImagePath"].ToString();
-                var longitude = Double.Parse(data["Longitude"].ToString());
-                var latitude = Double.Parse(data["Latitude"].ToString());
-                var id = snapshot.Key;
 
-                var house = new House()
-                {
-                    Id = id,
-                    City = city,
-                    Address = address,
-                    Province = province,
-                    ImagePath = imagePath,
-                    Longitude = longitude,
-                    Latitude = latitude,
-
-                };
+                var house = new House(data, snapshot.Key);
 
                 houses.Add(house);
 

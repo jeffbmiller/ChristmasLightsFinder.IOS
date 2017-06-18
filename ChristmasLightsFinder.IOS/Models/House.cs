@@ -1,10 +1,27 @@
 ﻿using System;
+using Foundation;
 using Parse;
 
 namespace ChristmasLightsFinder.IOS
 {
 	public class House
 	{
+        public House()
+        {
+
+        }
+
+        public House(NSDictionary data, string key)
+        {
+			Address = data["Address"].ToString();
+            City = data["City"].ToString();
+			Province = data["Province"].ToString();
+			ImagePath = data["ImagePath"].ToString();
+			Longitude = Double.Parse(data["Longitude"].ToString());
+			Latitude = Double.Parse(data["Latitude"].ToString());
+			Id = key;
+		}
+
         public string Id { get; set; }
         public string Address { get; set; }
         public DateTime CreatedAt { get; set; }
