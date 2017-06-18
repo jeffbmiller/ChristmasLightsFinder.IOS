@@ -37,6 +37,7 @@ namespace ChristmasLightsFinder.IOS
 			UIApplication.SharedApplication.SetStatusBarStyle (UIStatusBarStyle.LightContent, false);
 
             App.Configure();
+            Firebase.Database.Database.DefaultInstance.PersistenceEnabled = true;
 
 			Window.RootViewController = UIStoryboard.FromName ("MainStoryboard", null).InstantiateInitialViewController();
 
