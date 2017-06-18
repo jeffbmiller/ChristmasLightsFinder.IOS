@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Collections.Generic;
+using Firebase.Database;
 
 namespace ChristmasLightsFinder.IOS
 {
@@ -15,7 +16,6 @@ namespace ChristmasLightsFinder.IOS
 	{
 		CLLocationManager locationManager;
 
-		private readonly HouseService houseService;
 		private readonly HouseImageCacheRepository imageCacheRepo;
 		private bool isAdmin;
 		private NSObject observer;
@@ -26,38 +26,37 @@ namespace ChristmasLightsFinder.IOS
 
 		public MapViewController (IntPtr handle) : base (handle)
 		{
-			houseService = new HouseService ();
 			imageCacheRepo = new HouseImageCacheRepository ();
 			this.mapFilter = MapFilter.All;
 			this.NavigationItem.BackBarButtonItem = new UIBarButtonItem ("Back", UIBarButtonItemStyle.Plain,null);
 			isAdmin =  NSBundle.MainBundle.ObjectForInfoDictionary("AllowAddNew").ToString() == "1";
 		}
 
-		public string GetRankForHouse(House house)
-		{
-			var grouping = houses.GroupBy (x => x.Likes).ToList();
+		//public string GetRankForHouse(House house)
+		//{
+		//	var grouping = houses.GroupBy (x => x.Likes).ToList();
 
-			var rank = 1;
-			foreach (var group in grouping.OrderByDescending(x=>x.Key)) {
-				if (group.Any (x=>x.ObjectId == house.ObjectId))
-					return group.Count() > 1 ? string.Format("T{0}",rank.ToString()) : rank.ToString ();
-				rank++;
-			}
+		//	var rank = 1;
+		//	foreach (var group in grouping.OrderByDescending(x=>x.Key)) {
+		//		if (group.Any (x=>x.ObjectId == house.ObjectId))
+		//			return group.Count() > 1 ? string.Format("T{0}",rank.ToString()) : rank.ToString ();
+		//		rank++;
+		//	}
 
-			return rank.ToString();
-		}
+		//	return rank.ToString();
+		//}
 
 		public HouseImageCacheRepository ImageCacheRepo { get { return imageCacheRepo; } }
 
 		public async override void ViewDidLoad ()
 		{
 
-			if (observer == null){
-				observer = NSNotificationCenter.DefaultCenter.AddObserver (new NSString ("ReloadMap"), (x)=>{
-					if (!IsBusy)
-						Reload(true);
-				});
-			}
+			//if (observer == null){
+			//	observer = NSNotificationCenter.DefaultCenter.AddObserver (new NSString ("ReloadMap"), (x)=>{
+			//		if (!IsBusy)
+			//			Reload(true);
+			//	});
+			//}
 			// If Not Admin Remove Add button
 			if (!isAdmin) {
 				this.NavigationItem.RightBarButtonItem = null;
@@ -66,15 +65,16 @@ namespace ChristmasLightsFinder.IOS
 			this.mapView.Delegate = new MapDelegate (this);
 
 			Center ();
+            LoadFromFirebase();
 
-			Reload (true);
+			//Reload (true);
 		}
 
 		public override void ViewDidAppear (bool animated)
 		{
 			base.ViewDidAppear (animated);
-			if (!IsBusy)
-				Reload (false);
+			//if (!IsBusy)
+				//Reload (false);
 		}
 
 		private void Center()
@@ -83,88 +83,113 @@ namespace ChristmasLightsFinder.IOS
 			var span = new MKCoordinateSpan(0.1, 0.1);
 			mapView.Region = new MKCoordinateRegion(coords, span);
 		}
+
+        private void LoadFromFirebase()
+        {
+            houses = new List<House>();
+            var houseRef = Firebase.Database.Database.DefaultInstance.GetRootReference().GetChild("Houses");
+            houseRef.ObserveEvent(DataEventType.ChildAdded, (snapshot, prevKey) =>
+            {
+                var data = snapshot.GetValue<NSDictionary>();
+                var address = data["Address"].ToString();
+                var city = data["City"].ToString();
+                var province = data["Province"].ToString();
+                var imagePath = data["ImagePath"].ToString();
+
+                var house = new House()
+                {
+                    City = city,
+                    Address = address,
+                    Province = province,
+                    ImagePath = imagePath
+                };
+
+                houses.Add(house);
+
+            });
+        }
 			
-		private async void Reload(bool redownload)
-		{
-			try {
-				if (redownload)
-				{
-					UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
-					var results = await houseService.GetHousesAsync (mapFilter);
-					houses = results.ToList();
-				}
-				var existing = this.mapView.Annotations.OfType<HouseMapAnnotation>().ToList ();
+//		private async void Reload(bool redownload)
+//		{
+//			try {
+//				if (redownload)
+//				{
+//					UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
+//					var results = await houseService.GetHousesAsync (mapFilter);
+//					houses = results.ToList();
+//				}
+//				var existing = this.mapView.Annotations.OfType<HouseMapAnnotation>().ToList ();
 
-//				//If Deleted from Server or filtered remove from map
-				foreach (var annotation in existing) {
-					if (!houses.Any(x=>x.ObjectId == annotation.House.ObjectId))
-						this.mapView.RemoveAnnotation(annotation);
-				}
+////				//If Deleted from Server or filtered remove from map
+		//		foreach (var annotation in existing) {
+		//			if (!houses.Any(x=>x.ObjectId == annotation.House.ObjectId))
+		//				this.mapView.RemoveAnnotation(annotation);
+		//		}
 
-				//Update Annotation from Server
-				foreach (var house in houses) {
-					var existingAnnotation = existing.FirstOrDefault (x => x.House.ObjectId == house.ObjectId);
-					var rank = GetRankForHouse(house);
-					if (existingAnnotation != null) 
-					{
+		//		//Update Annotation from Server
+		//		foreach (var house in houses) {
+		//			var existingAnnotation = existing.FirstOrDefault (x => x.House.ObjectId == house.ObjectId);
+		//			var rank = GetRankForHouse(house);
+		//			if (existingAnnotation != null) 
+		//			{
 						
-						if (existingAnnotation.House.UpdatedAt < house.UpdatedAt ||  existingAnnotation.Rank != rank || existingAnnotation.House.Likes != house.Likes)
-						{
-							this.mapView.RemoveAnnotation(existingAnnotation);
-							var annotation = new HouseMapAnnotation (new CLLocationCoordinate2D(house.Latitude,house.Longitude), house.Address, house, rank);
-							this.mapView.AddAnnotation(annotation);
-						}
-					}
-					else{
+		//				if (existingAnnotation.House.UpdatedAt < house.UpdatedAt ||  existingAnnotation.Rank != rank || existingAnnotation.House.Likes != house.Likes)
+		//				{
+		//					this.mapView.RemoveAnnotation(existingAnnotation);
+		//					var annotation = new HouseMapAnnotation (new CLLocationCoordinate2D(house.Latitude,house.Longitude), house.Address, house, rank);
+		//					this.mapView.AddAnnotation(annotation);
+		//				}
+		//			}
+		//			else{
 
-						var annotation = new HouseMapAnnotation (new CLLocationCoordinate2D(house.Latitude,house.Longitude), house.Address, house, rank);
+		//				var annotation = new HouseMapAnnotation (new CLLocationCoordinate2D(house.Latitude,house.Longitude), house.Address, house, rank);
 
-						this.mapView.AddAnnotation (annotation);
-					}
-				}
+		//				this.mapView.AddAnnotation (annotation);
+		//			}
+		//		}
 
-			}
-			catch(Exception e) {
-				BigTed.BTProgressHUD.ShowErrorWithStatus ("Error Communication With Server");
-			}
-			finally{
-				UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
-			}
-		}
+		//	}
+		//	catch(Exception e) {
+		//		BigTed.BTProgressHUD.ShowErrorWithStatus ("Error Communication With Server");
+		//	}
+		//	finally{
+		//		UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
+		//	}
+		//}
 
-		private bool IsBusy { get {return UIApplication.SharedApplication.NetworkActivityIndicatorVisible; } }
+		//private bool IsBusy { get {return UIApplication.SharedApplication.NetworkActivityIndicatorVisible; } }
 
-		partial void trackCurrentLocationBtn_Activated (UIBarButtonItem sender)
-		{
-			if (locationManager == null)
-			{
-				// Set a movement threshold for new events.
-				locationManager = new CLLocationManager();
-				locationManager.DistanceFilter = 500f;
-			}
+		//partial void trackCurrentLocationBtn_Activated (UIBarButtonItem sender)
+		//{
+		//	if (locationManager == null)
+		//	{
+		//		// Set a movement threshold for new events.
+		//		locationManager = new CLLocationManager();
+		//		locationManager.DistanceFilter = 500f;
+		//	}
 
-			if (CLLocationManager.Status == CLAuthorizationStatus.NotDetermined){
-				locationManager.RequestWhenInUseAuthorization();
-				mapView.ShowsUserLocation = true;
-				return;
-			}
+		//	if (CLLocationManager.Status == CLAuthorizationStatus.NotDetermined){
+		//		locationManager.RequestWhenInUseAuthorization();
+		//		mapView.ShowsUserLocation = true;
+		//		return;
+		//	}
 
-			if (CLLocationManager.Status != CLAuthorizationStatus.AuthorizedWhenInUse){
+		//	if (CLLocationManager.Status != CLAuthorizationStatus.AuthorizedWhenInUse){
 
-				new UIAlertView("Turn On Location Services For \"Christmas Lights Finder\" To Determine Your Locaiton.","Go to Settings -> Location Services -> Christmas Lights Finder to turn on.",null,"Close",null).Show();
-			}
-			else {
-				//Toggle Show User Location
-				if (mapView.ShowsUserLocation == true)
-					mapView.ShowsUserLocation = false;
-				else 
-				{
-					locationManager.RequestWhenInUseAuthorization();
-					shouldCenterOnLocation = true;
-					mapView.ShowsUserLocation = true;
-				}
-			}
-		}
+		//		new UIAlertView("Turn On Location Services For \"Christmas Lights Finder\" To Determine Your Locaiton.","Go to Settings -> Location Services -> Christmas Lights Finder to turn on.",null,"Close",null).Show();
+		//	}
+		//	else {
+		//		//Toggle Show User Location
+		//		if (mapView.ShowsUserLocation == true)
+		//			mapView.ShowsUserLocation = false;
+		//		else 
+		//		{
+		//			locationManager.RequestWhenInUseAuthorization();
+		//			shouldCenterOnLocation = true;
+		//			mapView.ShowsUserLocation = true;
+		//		}
+		//	}
+		//}
 
 //		partial void FilterMapButton_Activated (UIBarButtonItem sender)
 //		{
@@ -265,40 +290,41 @@ namespace ChristmasLightsFinder.IOS
 
 			private async void FetchImageAsync(MKAnnotationView annotationView, House house)
 			{
-				try {
-					if (house.Thumbnail == null) return;
+                if (house.ImagePath == null) return;
+				//try {
+					
 
-					UIImage thumbnail;
+				//	UIImage thumbnail;
 
-					//Check Cache First
-					var houseImageCache = await parent.imageCacheRepo.GetHouseImagesFor(house.ObjectId);
-					if (houseImageCache == null)
-					{
-						//If Not in Cache set cache;
-						var byteArray = await new HttpClient ().GetByteArrayAsync (house.Thumbnail.Url);
-						parent.imageCacheRepo.SaveHouseImages(new HouseImages(){ObjectId = house.ObjectId, Thumbnail= byteArray});
-						thumbnail = UIImage.LoadFromData (NSData.FromArray (byteArray));
+				//	//Check Cache First
+				//	var houseImageCache = await parent.imageCacheRepo.GetHouseImagesFor(house.ObjectId);
+				//	if (houseImageCache == null)
+				//	{
+				//		//If Not in Cache set cache;
+				//		var byteArray = await new HttpClient ().GetByteArrayAsync (house.Thumbnail.Url);
+				//		parent.imageCacheRepo.SaveHouseImages(new HouseImages(){ObjectId = house.ObjectId, Thumbnail= byteArray});
+				//		thumbnail = UIImage.LoadFromData (NSData.FromArray (byteArray));
 
-					}
-					else
-					{
-						if (houseImageCache.Thumbnail != null)
-						{
-							thumbnail = UIImage.LoadFromData (NSData.FromArray (houseImageCache.Thumbnail));
+				//	}
+				//	else
+				//	{
+				//		if (houseImageCache.Thumbnail != null)
+				//		{
+				//			thumbnail = UIImage.LoadFromData (NSData.FromArray (houseImageCache.Thumbnail));
 
-						}
-						else {
-							var byteArray = await new HttpClient ().GetByteArrayAsync (house.Thumbnail.Url);
-							houseImageCache.Thumbnail = byteArray;
-							await parent.imageCacheRepo.UpdateHouseImages(houseImageCache);
-							thumbnail = UIImage.LoadFromData (NSData.FromArray (byteArray));
+				//		}
+				//		else {
+				//			var byteArray = await new HttpClient ().GetByteArrayAsync (house.Thumbnail.Url);
+				//			houseImageCache.Thumbnail = byteArray;
+				//			await parent.imageCacheRepo.UpdateHouseImages(houseImageCache);
+				//			thumbnail = UIImage.LoadFromData (NSData.FromArray (byteArray));
 
-						}
-					}
-					annotationView.LeftCalloutAccessoryView = new UIImageView(thumbnail);
+				//		}
+				//	}
+				//	annotationView.LeftCalloutAccessoryView = new UIImageView(thumbnail);
 
-				} catch (Exception e) {
-					Console.WriteLine ("Error Retrieving Image. {0}", e.Message);
+				//} catch (Exception e) {
+					//Console.WriteLine ("Error Retrieving Image. {0}", e.Message);
 				}
 
 			}
@@ -317,4 +343,4 @@ namespace ChristmasLightsFinder.IOS
 		}
 	}
 
-}
+

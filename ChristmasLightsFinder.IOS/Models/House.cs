@@ -3,89 +3,30 @@ using Parse;
 
 namespace ChristmasLightsFinder.IOS
 {
-	[ParseClassName("House")]
-	public class House : ParseObject
+	public class House
 	{
-		[ParseFieldName("address")]
-		public string Address
-		{
-			get { return GetProperty<string>(); }
-			set { SetProperty<string>(value); }
-		}
+        public string Id { get; set; }
+        public string Address { get; set; }
+        public DateTime CreatedAt { get; set; }
+		
+		public string City{ get; set; }
 
-		[ParseFieldName("city")]
-		public string City
-		{
-			get { return GetProperty<string>(); }
-			set { SetProperty<string>(value); }
-		}
-
-		[ParseFieldName("province")]
-		public string Province
-		{
-			get { return GetProperty<string>(); }
-			set { SetProperty<string>(value); }
-		}
-
-		[ParseFieldName("country")]
-		public string Country
-		{
-			get { return GetProperty<string>(); }
-			set { SetProperty<string>(value); }
-		}
-
-		[ParseFieldName("music")]
-		public bool Music
-		{
-			get { return GetProperty<bool>(); }
-			set { SetProperty<bool>(value); }
-		}
-
-		[ParseFieldName("animation")]
-		public bool Animation
-		{
-			get { return GetProperty<bool>(); }
-			set { SetProperty<bool>(value); }
-		}
+		
+		public string Province{ get; set; }
 
 
-		[ParseFieldName("likes")]
-		public int Likes
-		{
-			get { return GetProperty<int>(); }
-			set { SetProperty<int>(value); }
-		}
+		public int Likes { get; set; }
 
-		[ParseFieldName("image")]
-		public ParseFile Image
-		{
-			get { return GetProperty<ParseFile>(); }
-			set { SetProperty<ParseFile>(value); }
-		}
+		
+		public string ImagePath{ get; set; }
 
-		[ParseFieldName("thumbnail")]
-		public ParseFile Thumbnail
-		{
-			get { return GetProperty<ParseFile>(); }
-			set { SetProperty<ParseFile>(value); }
-		}
+		
+		public double Longitude{ get; set; }
 
-		[ParseFieldName("longitude")]
-		public double Longitude
-		{
-			get { return GetProperty<double>(); }
-			set { SetProperty<double>(value); }
-		}
+	
+		public double Latitude{ get; set; }
 
-
-		[ParseFieldName("latitude")]
-		public double Latitude
-		{
-			get { return GetProperty<double>(); }
-			set { SetProperty<double>(value); }
-		}
-
-		public string FullAddress {get { return string.Format("{0} {1} {2}", Address,City, Country);}}
+		public string FullAddress {get { return string.Format("{0} {1}", Address,City);}}
 	}
 }
 

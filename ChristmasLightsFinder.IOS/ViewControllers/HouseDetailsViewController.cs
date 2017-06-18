@@ -27,12 +27,13 @@ namespace ChristmasLightsFinder.IOS
 			else
 				housesLiked = new List<string>();
 
-			imageCacheRepo = new HouseImageCacheRepository ();
+            //imageCacheRepo = new HouseImageCacheRepository ();
+
 		}
 
 		public HouseMapAnnotation Annotation {get;set;}
 
-		public bool CanLike {get {return !housesLiked.Contains (Annotation.House.ObjectId); }}
+		public bool CanLike {get {return !housesLiked.Contains (Annotation.House.Id); }}
 
 		public async override void ViewDidLoad ()
 		{
@@ -42,49 +43,49 @@ namespace ChristmasLightsFinder.IOS
 
 			BindData ();
 
-			if (Annotation.House.Image != null) {
-				try {
-					this.activityIndicator.Hidden = false;
-					this.activityIndicator.StartAnimating ();
+			//if (Annotation.House.ImagePath != null) {
+				//try {
+					//this.activityIndicator.Hidden = false;
+					//this.activityIndicator.StartAnimating ();
 
 
-					UIImage image;
+					//UIImage image;
 
-					//Check Cache First
-					var houseImageCache = await imageCacheRepo.GetHouseImagesFor(Annotation.House.ObjectId);
-					if (houseImageCache == null)
-					{
-						//If Not in Cache set cache;
-						var byteArray = await new HttpClient ().GetByteArrayAsync (Annotation.House.Image.Url);
-						await imageCacheRepo.SaveHouseImages(new HouseImages(){ObjectId = Annotation.House.ObjectId, Image= byteArray});
-						image = UIImage.LoadFromData (NSData.FromArray (byteArray));
+				//	//Check Cache First
+				//	var houseImageCache = await imageCacheRepo.GetHouseImagesFor(Annotation.House.Id);
+				//	if (houseImageCache == null)
+				//	{
+				//		//If Not in Cache set cache;
+				//		var byteArray = await new HttpClient ().GetByteArrayAsync (Annotation.House.Image.Url);
+				//		await imageCacheRepo.SaveHouseImages(new HouseImages(){ObjectId = Annotation.House.ObjectId, Image= byteArray});
+				//		image = UIImage.LoadFromData (NSData.FromArray (byteArray));
 
-					}
-					else
-					{
-						if (houseImageCache.Image != null)
-						{
-							image = UIImage.LoadFromData (NSData.FromArray (houseImageCache.Image));
+				//	}
+				//	else
+				//	{
+				//		if (houseImageCache.Image != null)
+				//		{
+				//			image = UIImage.LoadFromData (NSData.FromArray (houseImageCache.Image));
 
-						}
-						else {
-							var byteArray = await new HttpClient ().GetByteArrayAsync (Annotation.House.Image.Url);
-							houseImageCache.Image = byteArray;
-							await imageCacheRepo.UpdateHouseImages(houseImageCache);
-							image = UIImage.LoadFromData (NSData.FromArray (byteArray));
+				//		}
+				//		else {
+				//			var byteArray = await new HttpClient ().GetByteArrayAsync (Annotation.House.Image.Url);
+				//			houseImageCache.Image = byteArray;
+				//			await imageCacheRepo.UpdateHouseImages(houseImageCache);
+				//			image = UIImage.LoadFromData (NSData.FromArray (byteArray));
 
-						}
-					}
+				//		}
+				//	}
 
-					this.houseImage.Image = image;
+				//	this.houseImage.Image = image;
 
-				} catch (Exception e) {
-					Console.WriteLine ("Error Retrieving Image. {0}", e.Message);
-				} finally {
-					this.activityIndicator.StopAnimating ();
-					this.activityIndicator.Hidden = true;
-				}
-			}
+				//} catch (Exception e) {
+				//	Console.WriteLine ("Error Retrieving Image. {0}", e.Message);
+				//} finally {
+				//	this.activityIndicator.StopAnimating ();
+				//	this.activityIndicator.Hidden = true;
+				//}
+			//}
 		}
 
 		async partial void likeButton_TouchUpInside (UIButton sender)
@@ -92,14 +93,14 @@ namespace ChristmasLightsFinder.IOS
 
 			
 			var paramsDictionary = new Dictionary<string, object>();
-			paramsDictionary.Add("objectId",Annotation.House.ObjectId);
+            paramsDictionary.Add("objectId",Annotation.House.Id);
 			try {
 				var result = await Parse.ParseCloud.CallFunctionAsync<int>("likeHouse",paramsDictionary);
 				this.Annotation.House.Likes = result;
 				Annotation.RefreshAnnotationView();
 
 				//Update local cache to reflect house was liked
-				housesLiked.Add(Annotation.House.ObjectId);
+				housesLiked.Add(Annotation.House.Id);
 				var houseLikedString = string.Join(";",housesLiked);
 				File.WriteAllText(housesLikeFilename, houseLikedString );
 
@@ -131,7 +132,7 @@ namespace ChristmasLightsFinder.IOS
 
 		private void BindData()
 		{
-			this.dateAddedLabel.Text = string.Format("Added: {0}", Annotation.House.CreatedAt.Value.ToLocalTime().ToShortDateString ());
+			this.dateAddedLabel.Text = string.Format("Added: {0}", Annotation.House.CreatedAt.ToLocalTime().ToShortDateString ());
 			this.addressLabel.Text = Annotation.House.Address;
 			this.cityProvLabel.Text = string.Format ("{0}, {1}", Annotation.House.City, Annotation.House.Province);
 			this.likesLabel.Text = string.Format ("({0}) Likes", Annotation.House.Likes);

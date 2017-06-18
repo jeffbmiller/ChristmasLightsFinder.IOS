@@ -67,7 +67,7 @@ namespace ChristmasLightsFinder.IOS
 			});
 
 			var saveBtn = new UIBarButtonItem (UIBarButtonSystemItem.Save);
-			saveBtn.Clicked += async delegate {
+			saveBtn.Clicked += delegate {
 
 				DismissKeyboards();
 				if (addressTextField.Text == null || cityTextField.Text == null && provinceTextField.Text == null)
@@ -80,10 +80,6 @@ namespace ChristmasLightsFinder.IOS
 					Address = addressTextField.Text,
 					City = cityTextField.Text,
 					Province = provinceTextField.Text,
-					Country = "Canada",
-
-					Music = musicSwitch.On,
-					Animation = animationSwitch.On
 				};
 
 				if (locationManager != null && locationManager.Location != null)
@@ -92,36 +88,54 @@ namespace ChristmasLightsFinder.IOS
 					house.Latitude = locationManager.Location.Coordinate.Latitude;
 				}
 
-				BigTed.BTProgressHUD.Show("Saving...");
+				var housesRef = Firebase.Database.Database.DefaultInstance.GetRootReference().GetChild("Houses").GetChildByAutoId();
 
-				//Save Parse File
-				if (houseImageView.Image != null){
-					try {
-						var imageFile = new ParseFile(string.Format("{0}.jpg",house.FullAddress),houseImageView.Image.AsJPEG(0.2f).AsStream());
-						await imageFile.SaveAsync();
-						house.Image = imageFile;
+				object[] keys = { "Address", "City", "Province", "ImagePath", "Longitude", "Latitude" };
+				object[] values = { house.Address, house.City, house.Province, house.ImagePath ?? "", house.Longitude, house.Latitude };
+				var data = NSDictionary.FromObjectsAndKeys(values, keys, keys.Length);
+
+                BigTed.BTProgressHUD.Show("Saving...");
+                housesRef.SetValue<NSDictionary>(data, (error, reference) =>
+                {
+                    BigTed.BTProgressHUD.Dismiss();
+                    if (error != null){
+						      new UIAlertView("Error Saving Image",error.ToString(),null,"Close",null).Show();
+						      return;
 					}
-					catch (Exception e)
-					{
-						BigTed.BTProgressHUD.Dismiss();
-						new UIAlertView("Error Saving Image",e.Message,null,"Close",null).Show();
-						return;
-					}
-				}
 
-				//Save House Parse object
-				try {
-					await house.SaveAsync();
-				}
-				catch (Exception e){
-					BigTed.BTProgressHUD.Dismiss();
-					new UIAlertView("Error Saving",e.Message,null,"Close",null).Show();
-					return;
-				}
+					//NSNotificationCenter.DefaultCenter.PostNotificationName("ReloadMap", this);
+					this.NavigationController.PopViewController(true);
+                });
 
-				BigTed.BTProgressHUD.Dismiss();
-				NSNotificationCenter.DefaultCenter.PostNotificationName("ReloadMap", this);
-				this.NavigationController.PopViewController(true);
+				
+
+				////Save Parse File
+				//if (houseImageView.Image != null){
+				//	try {
+				//		var imageFile = new ParseFile(string.Format("{0}.jpg",house.FullAddress),houseImageView.Image.AsJPEG(0.2f).AsStream());
+				//		await imageFile.SaveAsync();
+				//		house.Image = imageFile;
+				//	}
+				//	catch (Exception e)
+				//	{
+				//		BigTed.BTProgressHUD.Dismiss();
+				//		new UIAlertView("Error Saving Image",e.Message,null,"Close",null).Show();
+				//		return;
+				//	}
+				//}
+
+				////Save House Parse object
+				//try {
+				//	await house.SaveAsync();
+				//}
+				//catch (Exception e){
+				//	BigTed.BTProgressHUD.Dismiss();
+				//	new UIAlertView("Error Saving",e.Message,null,"Close",null).Show();
+				//	return;
+				//}
+
+				//BigTed.BTProgressHUD.Dismiss();
+		
 			};
 
 			this.NavigationItem.RightBarButtonItems = new UIBarButtonItem[]{ saveBtn, myLocationBtn };

@@ -1,8 +1,8 @@
 ﻿using Foundation;
 using UIKit;
-using Parse;
 using System;
 using Xamarin;
+using Firebase.Analytics;
 
 namespace ChristmasLightsFinder.IOS
 {
@@ -36,25 +36,8 @@ namespace ChristmasLightsFinder.IOS
 			UINavigationBar.Appearance.TintColor = UIColor.White;
 			UIApplication.SharedApplication.SetStatusBarStyle (UIStatusBarStyle.LightContent, false);
 
-			ParseObject.RegisterSubclass<House>();
-			ParseClient.Initialize("Sv0daWT1jgQ4pdSFvgbqkThjXRtZlFhUW47LMGqx", "LN6CeKOoC0SZtKmyHVizMGyzl80suzV7dgWkYsdw");
+            App.Configure();
 
-			// Register for Push Notitications
-//			UIUserNotificationType notificationTypes = (UIUserNotificationType.Alert |
-//				UIUserNotificationType.Badge |
-//				UIUserNotificationType.Sound);
-//			var settings = UIUserNotificationSettings.GetSettingsForTypes(notificationTypes,
-//				new NSSet(new string[] { }));
-//			UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
-//			UIApplication.SharedApplication.RegisterForRemoteNotifications();
-//
-//			// Handle Push Notifications
-//			ParsePush.ParsePushNotificationReceived += (object sender, ParsePushNotificationEventArgs args) => {
-//				// Process Push Notification payload here.
-//				Console.WriteLine("Push Received");
-//			};
-//
-			// If you have defined a root view controller, set it here:
 			Window.RootViewController = UIStoryboard.FromName ("MainStoryboard", null).InstantiateInitialViewController();
 
 			// make the window visible

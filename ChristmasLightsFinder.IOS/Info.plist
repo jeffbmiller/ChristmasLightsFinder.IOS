@@ -33,12 +33,14 @@
 	<key>UIMainStoryboardFile</key>
 	<string>MainStoryboard</string>
 	<key>AllowAddNew</key>
-	<false/>
+	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Used to display current location within the Christmas Lights Finder app</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
+	<key>CFBundleName</key>
+	<string>Christmas Lights Finder</string>
 </dict>
 </plist>
