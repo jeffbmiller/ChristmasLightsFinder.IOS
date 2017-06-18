@@ -159,37 +159,37 @@ namespace ChristmasLightsFinder.IOS
 
 		//private bool IsBusy { get {return UIApplication.SharedApplication.NetworkActivityIndicatorVisible; } }
 
-		//partial void trackCurrentLocationBtn_Activated (UIBarButtonItem sender)
-		//{
-		//	if (locationManager == null)
-		//	{
-		//		// Set a movement threshold for new events.
-		//		locationManager = new CLLocationManager();
-		//		locationManager.DistanceFilter = 500f;
-		//	}
+		partial void trackCurrentLocationBtn_Activated (UIBarButtonItem sender)
+		{
+			if (locationManager == null)
+			{
+				// Set a movement threshold for new events.
+				locationManager = new CLLocationManager();
+				locationManager.DistanceFilter = 500f;
+			}
 
-		//	if (CLLocationManager.Status == CLAuthorizationStatus.NotDetermined){
-		//		locationManager.RequestWhenInUseAuthorization();
-		//		mapView.ShowsUserLocation = true;
-		//		return;
-		//	}
+			if (CLLocationManager.Status == CLAuthorizationStatus.NotDetermined){
+				locationManager.RequestWhenInUseAuthorization();
+				mapView.ShowsUserLocation = true;
+				return;
+			}
 
-		//	if (CLLocationManager.Status != CLAuthorizationStatus.AuthorizedWhenInUse){
+			if (CLLocationManager.Status != CLAuthorizationStatus.AuthorizedWhenInUse){
 
-		//		new UIAlertView("Turn On Location Services For \"Christmas Lights Finder\" To Determine Your Locaiton.","Go to Settings -> Location Services -> Christmas Lights Finder to turn on.",null,"Close",null).Show();
-		//	}
-		//	else {
-		//		//Toggle Show User Location
-		//		if (mapView.ShowsUserLocation == true)
-		//			mapView.ShowsUserLocation = false;
-		//		else 
-		//		{
-		//			locationManager.RequestWhenInUseAuthorization();
-		//			shouldCenterOnLocation = true;
-		//			mapView.ShowsUserLocation = true;
-		//		}
-		//	}
-		//}
+				new UIAlertView("Turn On Location Services For \"Christmas Lights Finder\" To Determine Your Locaiton.","Go to Settings -> Location Services -> Christmas Lights Finder to turn on.",null,"Close",null).Show();
+			}
+			else {
+				//Toggle Show User Location
+				if (mapView.ShowsUserLocation == true)
+					mapView.ShowsUserLocation = false;
+				else 
+				{
+					locationManager.RequestWhenInUseAuthorization();
+					shouldCenterOnLocation = true;
+					mapView.ShowsUserLocation = true;
+				}
+			}
+		}
 
 //		partial void FilterMapButton_Activated (UIBarButtonItem sender)
 //		{
