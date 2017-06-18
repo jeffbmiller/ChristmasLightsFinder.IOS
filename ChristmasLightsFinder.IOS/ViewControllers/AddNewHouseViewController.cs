@@ -79,92 +79,68 @@ namespace ChristmasLightsFinder.IOS
 					return;
 				}
 
-                var housesRef = Firebase.Database.Database.DefaultInstance.GetRootReference().GetChild("Houses").GetChildByAutoId();
-
-                var imagesNode = Firebase.Storage.Storage.DefaultInstance.GetRootReference().GetChild($"images\\{housesRef.Key}.jpg");
-
-                BigTed.BTProgressHUD.Show("Saving...");
-				// Upload the file to the path "images/rivers.jpg"
-                var uploadTask = imagesNode.PutData(NSData.FromStream(houseImageView.Image.AsJPEG(0.2f).AsStream()), null, (metadata, storageError) =>
-				{
-					if (storageError != null)
-					{
-						// Uh-oh, an error occurred!
-                        BigTed.BTProgressHUD.Dismiss();
-					}
-					else
-					{
-						var house = new House()
-						{
-							Address = addressTextField.Text,
-							City = cityTextField.Text,
-							Province = provinceTextField.Text,
-                            ImagePath = metadata.DownloadUrl.AbsoluteString
-						};
-
-						if (locationManager != null && locationManager.Location != null)
-						{
-							house.Longitude = locationManager.Location.Coordinate.Longitude;
-							house.Latitude = locationManager.Location.Coordinate.Latitude;
-						}
-
-						object[] keys = { "Address", "City", "Province", "ImagePath", "Longitude", "Latitude" };
-						object[] values = { house.Address, house.City, house.Province, house.ImagePath ?? "", house.Longitude, house.Latitude };
-						var data = NSDictionary.FromObjectsAndKeys(values, keys, keys.Length);
-
-						
-						housesRef.SetValue<NSDictionary>(data, (error, reference) =>
-						{
-							BigTed.BTProgressHUD.Dismiss();
-							if (error != null)
-							{
-								new UIAlertView("Error Saving Image", error.ToString(), null, "Close", null).Show();
-								return;
-							}
-
-					    //NSNotificationCenter.DefaultCenter.PostNotificationName("ReloadMap", this);
-					    this.NavigationController.PopViewController(true);
-						});
-
-					}
-				});
+               uploadImage();
 				
-
-				
-
-				
-
-				////Save Parse File
-				//if (houseImageView.Image != null){
-				//	try {
-				//		var imageFile = new ParseFile(string.Format("{0}.jpg",house.FullAddress),houseImageView.Image.AsJPEG(0.2f).AsStream());
-				//		await imageFile.SaveAsync();
-				//		house.Image = imageFile;
-				//	}
-				//	catch (Exception e)
-				//	{
-				//		BigTed.BTProgressHUD.Dismiss();
-				//		new UIAlertView("Error Saving Image",e.Message,null,"Close",null).Show();
-				//		return;
-				//	}
-				//}
-
-				////Save House Parse object
-				//try {
-				//	await house.SaveAsync();
-				//}
-				//catch (Exception e){
-				//	BigTed.BTProgressHUD.Dismiss();
-				//	new UIAlertView("Error Saving",e.Message,null,"Close",null).Show();
-				//	return;
-				//}
-
-				//BigTed.BTProgressHUD.Dismiss();
-		
 			};
 
 			this.NavigationItem.RightBarButtonItems = new UIBarButtonItem[]{ saveBtn, myLocationBtn };
 		}
+
+        private void uploadImage()
+        {
+			var housesRef = Firebase.Database.Database.DefaultInstance.GetRootReference().GetChild("Houses").GetChildByAutoId();
+
+			var imagesNode = Firebase.Storage.Storage.DefaultInstance.GetRootReference().GetChild($"images\\{housesRef.Key}\\main_image.jpg");
+
+			BigTed.BTProgressHUD.Show("Saving...");
+			// Upload the file to the path "images/rivers.jpg"
+			imagesNode.PutData(NSData.FromStream(houseImageView.Image.AsJPEG(0.2f).AsStream()), null, (metadata, storageError) =>
+			{
+				if (storageError != null)
+				{
+						// Uh-oh, an error occurred!
+						BigTed.BTProgressHUD.Dismiss();
+				}
+				else
+				{
+					saveHouse(housesRef, metadata.DownloadUrl.AbsoluteString);
+				}
+			});
+        }
+
+        private void saveHouse(Firebase.Database.DatabaseReference housesRef, string imagePath){
+
+            var house = new House()
+            {
+                Address = addressTextField.Text,
+                City = cityTextField.Text,
+                Province = provinceTextField.Text,
+                ImagePath = imagePath
+            };
+
+            if (locationManager != null && locationManager.Location != null)
+            {
+                house.Longitude = locationManager.Location.Coordinate.Longitude;
+                house.Latitude = locationManager.Location.Coordinate.Latitude;
+            }
+
+            object[] keys = { "Address", "City", "Province", "ImagePath", "Longitude", "Latitude" };
+            object[] values = { house.Address, house.City, house.Province, house.ImagePath ?? "", house.Longitude, house.Latitude };
+            var data = NSDictionary.FromObjectsAndKeys(values, keys, keys.Length);
+
+            
+            housesRef.SetValue<NSDictionary>(data, (error, reference) =>
+            {
+                BigTed.BTProgressHUD.Dismiss();
+                if (error != null)
+                {
+                    new UIAlertView("Error Saving Image", error.ToString(), null, "Close", null).Show();
+                    return;
+                }
+            this.NavigationController.PopViewController(true);
+            });
+
+        }
 
 		private void DismissKeyboards()
 		{
