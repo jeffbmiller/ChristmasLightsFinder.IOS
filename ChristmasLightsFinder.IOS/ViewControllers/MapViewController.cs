@@ -97,15 +97,18 @@ namespace ChristmasLightsFinder.IOS
                 var imagePath = data["ImagePath"].ToString();
                 var longitude = Double.Parse(data["Longitude"].ToString());
                 var latitude = Double.Parse(data["Latitude"].ToString());
+                var id = snapshot.Key;
 
                 var house = new House()
                 {
+                    Id = id,
                     City = city,
                     Address = address,
                     Province = province,
                     ImagePath = imagePath,
                     Longitude = longitude,
-                    Latitude = latitude
+                    Latitude = latitude,
+
                 };
 
                 houses.Add(house);

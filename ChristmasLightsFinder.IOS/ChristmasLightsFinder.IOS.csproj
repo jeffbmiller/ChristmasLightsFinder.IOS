@@ -105,6 +105,9 @@
     <Reference Include="Firebase.Database">
       <HintPath>..\packages\Xamarin.Firebase.iOS.Database.3.1.1.2\lib\Xamarin.iOS10\Firebase.Database.dll</HintPath>
     </Reference>
+    <Reference Include="Firebase.Storage">
+      <HintPath>..\packages\Xamarin.Firebase.iOS.Storage.1.0.5.2\lib\Xamarin.iOS10\Firebase.Storage.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -209,4 +212,5 @@
   <Import Project="..\packages\Xamarin.Firebase.iOS.InstanceID.1.0.8.1\build\Xamarin.Firebase.iOS.InstanceID.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.InstanceID.1.0.8.1\build\Xamarin.Firebase.iOS.InstanceID.targets')" />
   <Import Project="..\packages\Xamarin.Firebase.iOS.Analytics.3.6.0.2\build\Xamarin.Firebase.iOS.Analytics.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.Analytics.3.6.0.2\build\Xamarin.Firebase.iOS.Analytics.targets')" />
   <Import Project="..\packages\Xamarin.Firebase.iOS.Database.3.1.1.2\build\Xamarin.Firebase.iOS.Database.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.Database.3.1.1.2\build\Xamarin.Firebase.iOS.Database.targets')" />
+  <Import Project="..\packages\Xamarin.Firebase.iOS.Storage.1.0.5.2\build\Xamarin.Firebase.iOS.Storage.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.Storage.1.0.5.2\build\Xamarin.Firebase.iOS.Storage.targets')" />
 </Project>

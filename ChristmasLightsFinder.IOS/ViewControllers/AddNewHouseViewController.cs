@@ -79,36 +79,58 @@ namespace ChristmasLightsFinder.IOS
 					return;
 				}
 
-				var house = new House(){
-					Address = addressTextField.Text,
-					City = cityTextField.Text,
-					Province = provinceTextField.Text,
-				};
+                var housesRef = Firebase.Database.Database.DefaultInstance.GetRootReference().GetChild("Houses").GetChildByAutoId();
 
-				if (locationManager != null && locationManager.Location != null)
-				{
-					house.Longitude = locationManager.Location.Coordinate.Longitude;
-					house.Latitude = locationManager.Location.Coordinate.Latitude;
-				}
-
-				var housesRef = Firebase.Database.Database.DefaultInstance.GetRootReference().GetChild("Houses").GetChildByAutoId();
-
-				object[] keys = { "Address", "City", "Province", "ImagePath", "Longitude", "Latitude" };
-				object[] values = { house.Address, house.City, house.Province, house.ImagePath ?? "", house.Longitude, house.Latitude };
-				var data = NSDictionary.FromObjectsAndKeys(values, keys, keys.Length);
+                var imagesNode = Firebase.Storage.Storage.DefaultInstance.GetRootReference().GetChild($"images\\{housesRef.Key}.jpg");
 
                 BigTed.BTProgressHUD.Show("Saving...");
-                housesRef.SetValue<NSDictionary>(data, (error, reference) =>
-                {
-                    BigTed.BTProgressHUD.Dismiss();
-                    if (error != null){
-						      new UIAlertView("Error Saving Image",error.ToString(),null,"Close",null).Show();
-						      return;
+				// Upload the file to the path "images/rivers.jpg"
+                var uploadTask = imagesNode.PutData(NSData.FromStream(houseImageView.Image.AsJPEG(0.2f).AsStream()), null, (metadata, storageError) =>
+				{
+					if (storageError != null)
+					{
+						// Uh-oh, an error occurred!
+                        BigTed.BTProgressHUD.Dismiss();
 					}
+					else
+					{
+						var house = new House()
+						{
+							Address = addressTextField.Text,
+							City = cityTextField.Text,
+							Province = provinceTextField.Text,
+                            ImagePath = metadata.DownloadUrl.AbsoluteString
+						};
 
-					//NSNotificationCenter.DefaultCenter.PostNotificationName("ReloadMap", this);
-					this.NavigationController.PopViewController(true);
-                });
+						if (locationManager != null && locationManager.Location != null)
+						{
+							house.Longitude = locationManager.Location.Coordinate.Longitude;
+							house.Latitude = locationManager.Location.Coordinate.Latitude;
+						}
+
+						object[] keys = { "Address", "City", "Province", "ImagePath", "Longitude", "Latitude" };
+						object[] values = { house.Address, house.City, house.Province, house.ImagePath ?? "", house.Longitude, house.Latitude };
+						var data = NSDictionary.FromObjectsAndKeys(values, keys, keys.Length);
+
+						
+						housesRef.SetValue<NSDictionary>(data, (error, reference) =>
+						{
+							BigTed.BTProgressHUD.Dismiss();
+							if (error != null)
+							{
+								new UIAlertView("Error Saving Image", error.ToString(), null, "Close", null).Show();
+								return;
+							}
+
+					    //NSNotificationCenter.DefaultCenter.PostNotificationName("ReloadMap", this);
+					    this.NavigationController.PopViewController(true);
+						});
+
+					}
+				});
+				
+
+				
 
 				
 

@@ -43,6 +43,25 @@ namespace ChristmasLightsFinder.IOS
 
 			BindData ();
 
+            var rootNode = Firebase.Storage.Storage.DefaultInstance.GetRootReference();
+			// Create a reference to the file you want to download
+            var imagesNode = rootNode.GetChild($"images/{Annotation.House.Id}.jpg");
+
+			// Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+			imagesNode.GetData(1 * 1024 * 1024, (data, error) =>
+			{
+				if (error != null)
+				{
+					// Uh-oh, an error occurred!
+				}
+				else
+				{
+					// Data for "images/island.jpg" is returned
+					var image = UIImage.LoadFromData(data);
+                    this.houseImage.Image = image;
+				}
+			});
+
 			//if (Annotation.House.ImagePath != null) {
 				//try {
 					//this.activityIndicator.Hidden = false;
